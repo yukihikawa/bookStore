@@ -15,8 +15,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class UserServiceImpl implements UserService {
 
-    @Autowired
+    final
     UserDaoImpl userDao;
+
+    public UserServiceImpl(UserDaoImpl userDao) {
+        this.userDao = userDao;
+    }
 
     @Override
     public void registUser(User user) {

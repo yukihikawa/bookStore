@@ -11,8 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
  * @create: 2022-05-10 14:23
  **/
 
-@Component
-@Transactional
+
+
 public interface UserDao{
 
     /**
@@ -27,7 +27,7 @@ public interface UserDao{
      * @param password
      * @return 如果返回 null,说明用户名或密码错误,反之亦然
      */
-    public User queryUserByUsernameAndPassword(String username,String password);
+    public User queryUserByUsernameAndPassword(String username, String password);
     /**
      * 保存用户信息
      * @param user
