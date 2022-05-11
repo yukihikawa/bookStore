@@ -1,0 +1,34 @@
+package wrf.service.impl;
+
+import com.wrf.AppConfig;
+import com.wrf.pojo.User;
+import com.wrf.service.impl.UserServiceImpl;
+import org.junit.jupiter.api.Test;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
+class UserServiceImplTest {
+    ApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
+    UserServiceImpl userService = context.getBean(UserServiceImpl.class);
+
+    @Test
+    void registUser() {
+        userService.registUser(new User(null, "bbj168", "666666", "bbj168@qq.com"));
+        userService.registUser(new User(null, "bbj168", "666666", "bbj168@qq.com"));
+        userService.registUser(new User(null, "abc168", "666666", "abc168@qq.com"));
+    }
+
+    @Test
+    void login() {
+        System.out.println( userService.login(new User(null, "abc168", "666666", null)));
+    }
+
+    @Test
+    void existsUsername() {
+        if (userService.existsUsername("bbj168")) {
+            System.out.println("用户名已存在！");
+        } else {
+            System.out.println("用户名可用！");
+        }
+    }
+}

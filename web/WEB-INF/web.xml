@@ -12,11 +12,20 @@
 
   <servlet>
     <servlet-name>HelloServlet</servlet-name>
-    <servlet-class>wrf.test.HelloServlet</servlet-class>
+    <servlet-class>wrf.web.HelloServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>HelloServlet</servlet-name>
     <url-pattern>/hello</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>RegistServlet</servlet-name>
+    <servlet-class>wrf.web.RegistServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>RegistServlet</servlet-name>
+    <url-pattern>/registServlet</url-pattern>
   </servlet-mapping>
 
 </web-app>
