@@ -1,6 +1,7 @@
 package com.wrf.web;
 
 import com.wrf.pojo.User;
+import com.wrf.utils.WebUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -20,7 +21,8 @@ public class UserServlet extends BaseServlet {
         String password = req.getParameter("password");
 
         if(userService.existsUsername(username)){
-            if(userService.login(new User(null, username, password, null)) != null) {
+            User user = WebUtils.copyParamToBean(req.getParameterMap(), new User());
+            if(userService.login(user) != null) {
                 System.out.println("login success!");
                 req.getRequestDispatcher("/pages/user/login_success1.jsp").forward(req, resp);
             }
@@ -43,30 +45,31 @@ public class UserServlet extends BaseServlet {
 
     private void regist(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         // 1、获取请求的参数
-        String username = req.getParameter("username");
+        /*String username = req.getParameter("username");
         String password = req.getParameter("password");
-        String email = req.getParameter("email");
+        String email = req.getParameter("email");*/
+
         String code = req.getParameter("code");
 
-
+        User user = WebUtils.copyParamToBean(req.getParameterMap(), new User());
         String checkCode = "abcde";
         if(checkCode.equalsIgnoreCase(code)){
-            if(userService.existsUsername(username)){
+            if(userService.existsUsername(user.getUsername())){
                 req.setAttribute("msg", "用户名已存在");
-                req.setAttribute("username", username);
-                req.setAttribute("email", email);
-                System.out.println("username [" + username +"] exists！");
+                req.setAttribute("username", user.getUsername());
+                req.setAttribute("email", user.getEmail());
+                System.out.println("username [" + user.getUsername() +"] exists！");
                 req.getRequestDispatcher("/pages/user/regist.jsp").forward(req, resp);
             }
             else {
-                userService.registUser(new User(null, username, password, email));
+                userService.registUser(user);
                 req.getRequestDispatcher("/pages/user/regist_success.jsp").forward(req, resp);
             }
         }
         else {
             req.setAttribute("msg", "验证码错误");
-            req.setAttribute("username", username);
-            req.setAttribute("email", email);
+            req.setAttribute("username", user.getUsername());
+            req.setAttribute("email", user.getEmail());
             System.out.println("verification code [" + code + "] error!");
             req.getRequestDispatcher("/pages/user/regist.jsp").forward(req, resp);
         }
