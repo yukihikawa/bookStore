@@ -1,14 +1,8 @@
 package com.wrf.web;
 
-import com.wrf.AppConfig;
 import com.wrf.pojo.User;
-import com.wrf.service.impl.UserServiceImpl;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
-import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -19,29 +13,9 @@ import java.io.IOException;
  * @author: Rifu Wu
  * @create: 2022-05-14 20:06
  **/
-public class UserServlet extends HttpServlet {
+public class UserServlet extends BaseServlet {
 
-    UserServiceImpl userService;
-
-    @Override
-    public void init(ServletConfig config) throws ServletException {
-        ApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
-        this.userService  = context.getBean(UserServiceImpl.class);
-    }
-
-
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String action = req.getParameter("action");
-        if(action.equals("login")){
-            forLogin(req, resp);
-        }
-        if(action.equals("regist")){
-            forRegist(req, resp);
-        }
-    }
-
-    private void forLogin(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
+    private void login(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
         String username = req.getParameter("username");
         String password = req.getParameter("password");
 
@@ -67,7 +41,7 @@ public class UserServlet extends HttpServlet {
 
     }
 
-    private void forRegist(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    private void regist(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         // 1、获取请求的参数
         String username = req.getParameter("username");
         String password = req.getParameter("password");
