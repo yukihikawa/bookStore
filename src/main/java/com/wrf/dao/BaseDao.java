@@ -1,113 +1,71 @@
 package com.wrf.dao;
 
+import org.apache.commons.dbutils.QueryRunner;
+import org.apache.commons.dbutils.handlers.BeanHandler;
+import org.apache.commons.dbutils.handlers.BeanListHandler;
+import org.apache.commons.dbutils.handlers.ScalarHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowCallbackHandler;
-import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.core.support.JdbcDaoSupport;
-import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
 /**
  * @program: bookStore
- * @description: BaseDao
+ * @description:
  * @author: Rifu Wu
- * @create: 2022-05-10 13:31
+ * @create: 2022-05-13 20:33
  **/
+public abstract class BaseDao {
 
-public abstract class BaseDao extends JdbcDaoSupport {
+    static Logger logger;
+
     @Autowired
-    private JdbcTemplate jdbcTemplate;
+    QueryRunner queryRunner;
 
-    @PostConstruct
-    public void init() {
-        super.setJdbcTemplate(jdbcTemplate);
+    static {
+        logger = LoggerFactory.getLogger(BaseDao.class);
     }
 
-    public int update(String sql, Object... args){
-        try{
-            return jdbcTemplate.update((Connection conn) ->{
-                PreparedStatement ps = conn.prepareStatement(sql);
-                for (int i = 0; i < args.length; i++) {
-                    ps.setObject(i + 1, args[i]);
-                }
-                return ps;
-            });
-        } catch (DataAccessException e) {
-            return -1;
+
+    //执行一条update语句
+    public int update(String sql, Object... args) {
+        int result = -1;
+        try {
+            result = queryRunner.update(sql, args);
+        }catch (Exception e){
+            logger.error("", e);
         }
+        return result;
     }
 
-
-    /**
-     * 查询返回一个 javaBean 的 sql 语句
-     *
-     * @param rowMapper 返回的对象类型
-     * @param sql 执行的 sql 语句
-     * @param args sql 对应的参数值
-     * @param <T> 返回的类型的泛型
-     * @return
-     */
-
-    public <T> T queryForOne(RowMapper<T> rowMapper, String sql, Object... args){
+    //查找并返回一个对象
+    public <T> T queryForOne(Class<T> type, String sql, Object... args){
         try{
-            return jdbcTemplate.queryForObject(sql, args, rowMapper);
-        } catch (DataAccessException e) {
-            return null;
-        }
-    }
-
-    /**
-     * 查询返回多个 javaBean 的 sql 语句
-     *
-     * @param rowMapper 返回的对象的rowMapper
-     * @param sql 执行的 sql 语句
-     * @param args sql 对应的参数值
-     * @param <T> 返回的类型的泛型
-     * @return
-     */
-    public <T> List<T> queryForList(RowMapper<T> rowMapper, String sql, Object... args){
-        try{
-            List<T> result = jdbcTemplate.query(sql, rowMapper, args);
-            if(!result.isEmpty())
-                return result;
-        } catch (DataAccessException e) {
-            e.printStackTrace();
+            return queryRunner.query(sql, new BeanHandler<>(type), args);
+        } catch (SQLException e) {
+            logger.error("", e);
         }
         return null;
     }
 
-
-    /**
-     * 执行返回一行一列的 sql 语句
-     * @param sql 执行的 sql 语句
-     * @param args sql 对应的参数值
-     * @return
-     */
-
-    public Object queryForSingleValue(String sql, Object... args){
-        final Object[] result = {null};
+    //查找，并将结果以对象列表的形式返回
+    public <T> List<T> queryForList(Class<T> type, String sql, Object... args){
         try{
-            jdbcTemplate.query(sql, args, new RowCallbackHandler() {
-                @Override
-                public void processRow(ResultSet resultSet) throws SQLException {
-                    result[0] = resultSet.getObject(1);
-                }
-            });
-            return result[0];
-        } catch (DataAccessException e) {
-            e.printStackTrace();
+            return queryRunner.query(sql, new BeanListHandler<>(type), args);
+        } catch (SQLException e) {
+            logger.error("", e);
         }
-        return result[0];
+        return null;
     }
 
-
-
+    public Object queryForSingleValue(String sql, Object... args){
+        try{
+            return queryRunner.query(sql, new ScalarHandler(), args);
+        } catch (SQLException e) {
+            logger.error("", e);
+        }
+        return null;
+    }
 }

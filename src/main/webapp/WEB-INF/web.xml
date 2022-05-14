@@ -4,7 +4,7 @@
         "http://java.sun.com/dtd/web-app_2_3.dtd" >
 
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="2.5">
-    <display-name>book01</display-name>
+    <display-name>bookStore</display-name>
     <welcome-file-list>
         <welcome-file>index.html</welcome-file>
         <welcome-file>index.htm</welcome-file>
@@ -16,19 +16,8 @@
 
 
   <!--配置Spring MVC提供的DispatcherServlet-->
-  <!--<servlet>
-    <servlet-name>dispatcher</servlet-name>
-    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-    <init-param>
-      <param-name>ContexClass</param-name>
-      <param-value>org.springframework.web.context.support.AnnotationConfigWebApplicationContext</param-value>
-    </init-param>
-    <init-param>
-      <param-name>contextConfigLocation</param-name>
-      <param-value>com.wrf.AppConfig</param-value>
-    </init-param>
-    <load-on-startup>0</load-on-startup>
-  </servlet>-->
+
+<!--
 
     <servlet>
         <servlet-name>dispatcher</servlet-name>
@@ -48,14 +37,25 @@
         <servlet-name>dispatcher</servlet-name>
         <url-pattern>/*</url-pattern>
     </servlet-mapping>
-
-    <!--<servlet>
+-->
+    <servlet>
         <servlet-name>HelloServlet</servlet-name>
-        <servlet-class>com.wrf.web.HelloServlet</servlet-class>
+        <servlet-class>com.wrf.learning.HelloServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>HelloServlet</servlet-name>
         <url-pattern>/hello</url-pattern>
+    </servlet-mapping>
+
+
+
+    <servlet>
+        <servlet-name>LoginServlet</servlet-name>
+        <servlet-class>com.wrf.web.LoginServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>LoginServlet</servlet-name>
+        <url-pattern>/loginServlet</url-pattern>
     </servlet-mapping>
 
     <servlet>
@@ -66,5 +66,6 @@
         <servlet-name>RegistServlet</servlet-name>
         <url-pattern>/registServlet</url-pattern>
     </servlet-mapping>
--->
+
+
 </web-app>

@@ -3,7 +3,6 @@ package com.wrf.service.impl;
 import com.wrf.dao.impl.UserDaoImpl;
 import com.wrf.pojo.User;
 import com.wrf.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
