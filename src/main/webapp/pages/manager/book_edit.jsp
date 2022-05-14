@@ -5,7 +5,8 @@ language="java" %>
 <head>
 <meta charset="UTF-8">
 <title>编辑图书</title>
-<link type="text/css" rel="stylesheet" href="../../static/css/style.css" >
+	<%--静态包含base，css文件，jquery--%>
+	<%@include file="/pages/common/head.jsp"%>
 <style type="text/css">
 	h1 {
 		text-align: center;
@@ -23,13 +24,10 @@ language="java" %>
 </head>
 <body>
 		<div id="header">
-			<img class="logo_img" alt="" src="../../static/img/logo.gif" >
+			<img class="logo_img" alt="" src="static/img/logo.gif" >
 			<span class="wel_word">编辑图书</span>
-			<div>
-				<a href="book_manager.jsp">图书管理</a>
-				<a href="order_manager.jsp">订单管理</a>
-				<a href="../../index.jsp">返回商城</a>
-			</div>
+			<%--静态包含管理模块--%>
+			<%@include file="/pages/common/manage_menu.jsp"%>
 		</div>
 		
 		<div id="main">
@@ -56,11 +54,7 @@ language="java" %>
 			
 	
 		</div>
-		
-		<div id="bottom">
-			<span>
-				尚硅谷书城.Copyright &copy;2015
-			</span>
-		</div>
+
+		<%@include file="/pages/common/footer.jsp"%>
 </body>
 </html>

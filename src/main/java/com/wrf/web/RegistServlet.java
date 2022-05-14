@@ -47,6 +47,9 @@ public class RegistServlet extends HttpServlet {
         String checkCode = "abcde";
         if(checkCode.equalsIgnoreCase(code)){
             if(userService.existsUsername(username)){
+                req.setAttribute("msg", "用户名已存在");
+                req.setAttribute("username", username);
+                req.setAttribute("email", email);
                 System.out.println("username [" + username +"] exists！");
                 req.getRequestDispatcher("/pages/user/regist.jsp").forward(req, resp);
             }
@@ -56,6 +59,9 @@ public class RegistServlet extends HttpServlet {
             }
         }
         else {
+            req.setAttribute("msg", "验证码错误");
+            req.setAttribute("username", username);
+            req.setAttribute("email", email);
             System.out.println("verification code [" + code + "] error!");
             req.getRequestDispatcher("/pages/user/regist.jsp").forward(req, resp);
         }

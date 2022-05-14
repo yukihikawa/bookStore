@@ -1,38 +1,37 @@
 <%@ page
-contentType="text/html;charset=UTF-8"
-language="java" %>
+        contentType="text/html;charset=UTF-8"
+        language="java" %>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>后台管理</title>
-<link type="text/css" rel="stylesheet" href="../../static/css/style.css" >
-<style type="text/css">
-	h1 {
-		text-align: center;
-		margin-top: 200px;
-	}
-</style>
+    <meta charset="UTF-8">
+    <title>
+        后台管理</title>
+    <%--静态包含base，css文件，jquery--%>
+    <%@include
+            file="/pages/common/head.jsp" %>
+    <style type="text/css">
+        h1 {
+            text-align: center;
+            margin-top: 200px;
+        }
+    </style>
 </head>
 <body>
-	
-	<div id="header">
-			<img class="logo_img" alt="" src="../../static/img/logo.gif" >
-			<span class="wel_word">后台管理系统</span>
-			<div>
-				<a href="book_manager.jsp">图书管理</a>
-				<a href="order_manager.jsp">订单管理</a>
-				<a href="../../index.jsp">返回商城</a>
-			</div>
-	</div>
-	
-	<div id="main">
-		<h1>欢迎管理员进入后台管理系统</h1>
-	</div>
-	
-	<div id="bottom">
-		<span>
-			尚硅谷书城.Copyright &copy;2015
-		</span>
-	</div>
+
+<div id="header">
+    <img class="logo_img"
+         alt=""
+         src="static/img/logo.gif">
+    <span class="wel_word">后台管理系统</span>
+    <%--静态包含管理模块--%>
+    <%@include file="/pages/common/manage_menu.jsp"%>
+</div>
+
+<div id="main">
+    <h1>
+        欢迎管理员进入后台管理系统</h1>
+</div>
+
+<%@include file="/pages/common/footer.jsp"%>
 </body>
 </html>

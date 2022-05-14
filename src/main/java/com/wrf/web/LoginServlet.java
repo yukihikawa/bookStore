@@ -39,11 +39,16 @@ public class LoginServlet extends HttpServlet {
                 req.getRequestDispatcher("/pages/user/login_success1.jsp").forward(req, resp);
             }
             else {
+                req.setAttribute("msg", "密码错误");
+                req.setAttribute("username", username);
                 System.out.println("password error!");
                 req.getRequestDispatcher("/pages/user/login.jsp").forward(req, resp);
             }
         }
         else {
+            //吧回显表单项信息保存到Request域
+            req.setAttribute("msg", "用户不存在");
+            req.setAttribute("username", username);
             System.out.println("user does not exist!");
             req.getRequestDispatcher("/pages/user/login.jsp").forward(req, resp);
         }
