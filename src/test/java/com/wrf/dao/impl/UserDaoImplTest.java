@@ -1,12 +1,20 @@
 package com.wrf.dao.impl;
 
+import com.wrf.AppConfig;
 import com.wrf.dao.UserDao;
 import com.wrf.pojo.User;
 import org.junit.jupiter.api.Test;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 class UserDaoImplTest {
 
-    UserDao userDao = new UserDaoImpl();
+    UserDaoImpl userDao;
+
+    {
+        ApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
+        this.userDao  = context.getBean(UserDaoImpl.class);
+    }
     @Test
     public void queryUserByUsername() {
         if (userDao.queryUserByUsername("admin") == null ){

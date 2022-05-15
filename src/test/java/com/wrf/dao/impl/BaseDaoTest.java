@@ -1,13 +1,21 @@
-package com.wrf.dao;
+package com.wrf.dao.impl;
 
+import com.wrf.AppConfig;
 import com.wrf.dao.impl.BaseDaoImpl;
 import com.wrf.pojo.User;
 import org.junit.jupiter.api.Test;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.util.List;
 
 class BaseDaoTest {
-    BaseDaoImpl baseDao = new BaseDaoImpl();
+    BaseDaoImpl baseDao;
+    {
+        ApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
+        this.baseDao  = context.getBean(BaseDaoImpl.class);
+    }
+
     @Test
     void update() {
         String sql = "insert into t_user(`username`,`password`,`email`) values(?, ?, ?)";
@@ -33,6 +41,6 @@ class BaseDaoTest {
     @Test
     void queryForSingleValue() {
         String sql = "SELECT email FROM t_user WHERE id = ?";
-        System.out.println(baseDao.queryForSingleValue(sql, 37));
+        System.out.println(baseDao.queryForSingleValue(sql, 1));
     }
 }

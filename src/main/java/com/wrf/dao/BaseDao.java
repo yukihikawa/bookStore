@@ -7,6 +7,7 @@ import org.apache.commons.dbutils.handlers.ScalarHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -17,6 +18,7 @@ import java.util.List;
  * @author: Rifu Wu
  * @create: 2022-05-13 20:33
  **/
+@Component
 public abstract class BaseDao {
 
     static Logger logger;
