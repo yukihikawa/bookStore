@@ -1,7 +1,7 @@
 package com.wrf.web;
 
 import com.wrf.AppConfig;
-import com.wrf.pojo.User;
+import com.wrf.Bean.User;
 import com.wrf.service.impl.UserServiceImpl;
 import com.wrf.utils.WebUtils;
 import org.springframework.context.ApplicationContext;

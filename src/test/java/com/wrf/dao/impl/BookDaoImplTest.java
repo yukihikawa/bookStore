@@ -2,14 +2,12 @@ package com.wrf.dao.impl;
 
 import com.wrf.AppConfig;
 import com.wrf.dao.BookDao;
-import com.wrf.pojo.Book;
+import com.wrf.Bean.Book;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.math.BigDecimal;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class BookDaoImplTest {
 

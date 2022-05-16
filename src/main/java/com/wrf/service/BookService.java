@@ -1,6 +1,7 @@
 package com.wrf.service;
 
-import com.wrf.pojo.Book;
+import com.wrf.Bean.Book;
+import com.wrf.Bean.Page;
 
 import java.util.List;
 
@@ -25,5 +26,10 @@ public interface BookService {
 
     //获取所有图书
     public List<Book> getBookList();
+
+    //获取page
+    public Page<Book> page(int pagNo, int pageSize);
+
+
 
 }

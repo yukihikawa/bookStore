@@ -1,8 +1,7 @@
 package com.wrf.service.impl;
 
 import com.wrf.AppConfig;
-import com.wrf.pojo.User;
-import com.wrf.service.impl.UserServiceImpl;
+import com.wrf.Bean.User;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;

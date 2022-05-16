@@ -1,10 +1,9 @@
 package com.wrf.service.impl;
 
-import com.wrf.dao.BookDao;
+import com.wrf.Bean.Page;
 import com.wrf.dao.impl.BookDaoImpl;
-import com.wrf.pojo.Book;
+import com.wrf.Bean.Book;
 import com.wrf.service.BookService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -49,5 +48,32 @@ public class BookServiceImpl implements BookService {
     @Override
     public List<Book> getBookList() {
         return bookDao.queryBooks();
+    }
+
+    //获取页面
+    @Override
+    public Page<Book> page(int pagNo, int pageSize) {
+        Page<Book> page = new Page<>();
+        //设置页码
+        page.setPageNo(pagNo);
+        //设置页面大小（每页数量
+        page.setPageSize(pageSize);
+        //总记录数
+        Integer pageTotalCount = bookDao.queryForPageTotalCount();
+        //总条目数
+        page.setPageTotalCount(pageTotalCount);
+        //总页码
+        Integer pageTotal = pageTotalCount / pageSize;
+        if(pageTotalCount % pageSize != 0)
+            pageTotal += 1;
+        page.setPageTotal(pageTotal);
+
+        //当前页起始索引
+        int begin = (page.getPageNo() - 1) * pageSize;
+        //当前页面条目
+        List<Book> items = bookDao.queryForPageElement(begin, pageSize);
+        page.setItems(items);
+
+        return page;
     }
 }

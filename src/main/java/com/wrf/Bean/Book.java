@@ -1,4 +1,4 @@
-package com.wrf.pojo;
+package com.wrf.Bean;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

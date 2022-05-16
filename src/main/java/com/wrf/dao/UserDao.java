@@ -1,8 +1,6 @@
 package com.wrf.dao;
 
-import com.wrf.pojo.User;
-import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
+import com.wrf.Bean.User;
 
 /**
  * @program: bookStore

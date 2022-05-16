@@ -1,7 +1,7 @@
 package com.wrf.service.impl;
 
 import com.wrf.dao.impl.UserDaoImpl;
-import com.wrf.pojo.User;
+import com.wrf.Bean.User;
 import com.wrf.service.UserService;
 import org.springframework.stereotype.Component;
 

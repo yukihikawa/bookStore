@@ -1,6 +1,6 @@
 package com.wrf.dao;
 
-import com.wrf.pojo.Book;
+import com.wrf.Bean.Book;
 
 import java.util.List;
 
@@ -20,5 +20,9 @@ public interface BookDao {
     public Book queryBookByID(Integer id);
 
     public List<Book> queryBooks();
+
+    public Integer queryForPageTotalCount();
+
+    public List<Book> queryForPageElement(int begin, int pageSize);
 
 }

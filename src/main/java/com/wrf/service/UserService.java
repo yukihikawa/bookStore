@@ -1,6 +1,6 @@
 package com.wrf.service;
 
-import com.wrf.pojo.User;
+import com.wrf.Bean.User;
 
 /**
  * @program: bookStore

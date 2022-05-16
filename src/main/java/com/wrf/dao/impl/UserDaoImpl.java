@@ -2,7 +2,7 @@ package com.wrf.dao.impl;
 
 import com.wrf.dao.BaseDao;
 import com.wrf.dao.UserDao;
-import com.wrf.pojo.User;
+import com.wrf.Bean.User;
 import org.springframework.stereotype.Component;
 
 /**
