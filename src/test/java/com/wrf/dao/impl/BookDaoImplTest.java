@@ -21,7 +21,6 @@ class BookDaoImplTest {
     @Test
     void addBook() {
         Book book = new Book(null, "testbook1", "wrf", new BigDecimal(1222), 1334, 9999, null);
-        System.out.println(book);
         bookDao.addBook(book);
     }
 

@@ -1,5 +1,6 @@
 package com.wrf.dao;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
@@ -19,16 +20,17 @@ import java.util.List;
  * @create: 2022-05-13 20:33
  **/
 @Component
+@Slf4j
 public abstract class BaseDao {
 
-    static Logger logger;
+   /* static Logger logger;*/
 
     @Autowired
     QueryRunner queryRunner;
 
-    static {
+    /*static {
         logger = LoggerFactory.getLogger(BaseDao.class);
-    }
+    }*/
 
 
     //执行一条update语句
@@ -37,7 +39,7 @@ public abstract class BaseDao {
         try {
             result = queryRunner.update(sql, args);
         }catch (Exception e){
-            logger.error("", e);
+            log.error("", e);
         }
         return result;
     }
@@ -47,7 +49,7 @@ public abstract class BaseDao {
         try{
             return queryRunner.query(sql, new BeanHandler<>(type), args);
         } catch (SQLException e) {
-            logger.error("", e);
+            log.error("", e);
         }
         return null;
     }
@@ -57,7 +59,7 @@ public abstract class BaseDao {
         try{
             return queryRunner.query(sql, new BeanListHandler<>(type), args);
         } catch (SQLException e) {
-            logger.error("", e);
+            log.error("", e);
         }
         return null;
     }
@@ -66,7 +68,7 @@ public abstract class BaseDao {
         try{
             return queryRunner.query(sql, new ScalarHandler(), args);
         } catch (SQLException e) {
-            logger.error("", e);
+            log.error("", e);
         }
         return null;
     }
