@@ -28,4 +28,13 @@ public class Page<T> {
 
     private List<T> items;
 
+    public void setPageNo(Integer pageNo) {
+        if (pageNo < 1) {
+            pageNo = 1;
+        }
+        if (pageNo > pageTotal) {
+            pageNo = pageTotal;
+        }
+        this.pageNo = pageNo;
+    }
 }

@@ -33,29 +33,30 @@ public class BookServlet extends BaseServlet {
         this.bookService  = context.getBean(BookServiceImpl.class);
     }
 
-    //响应图书管理请求，列出所有图书
-    public void listAll(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    //响应图书管理请求，列出所有图书 已被page取代
+    /*public void listAll(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         List<Book> books = bookService.getBookList();
         req.setAttribute("books", books);
         log.info("list request");
         req.getRequestDispatcher("/pages/manager/book_manager.jsp").forward(req, resp);
-    }
+    }*/
     //按id删除图书
     public void delete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         log.info("delete req");
         String id = req.getParameter("id");
         bookService.deleteBook(id);
         /*listAll(req,resp);*/
-        resp.sendRedirect(req.getContextPath() + "/manager/bookServlet?action=listAll");
+        /*resp.sendRedirect(req.getContextPath() + "/manager/bookServlet?action=listAll");*/
+        resp.sendRedirect(req.getContextPath() + "/manager/bookServlet?action=page&pageNo=" + req.getParameter("pageNo"));
     }
 
     public void addBook(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException{
         log.info("servlet get add req");
-        log.info(req.getParameter("name"));
+
         Book book = WebUtils.copyParamToBean(req.getParameterMap(), new Book());
-        log.info("book" + book.getName());
+        log.info("new book: " + book.getName());
         bookService.addBook(book);
-        resp.sendRedirect(req.getContextPath() + "/manager/bookServlet?action=listAll");
+        resp.sendRedirect(req.getContextPath() + "/manager/bookServlet?action=page");
     }
 
     /**
@@ -82,7 +83,7 @@ public class BookServlet extends BaseServlet {
     public void update(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         Book book = WebUtils.copyParamToBean(req.getParameterMap(), new Book());
         bookService.updateBook(book);
-        resp.sendRedirect(req.getContextPath() + "/manager/bookServlet?action=listAll");
+        resp.sendRedirect(req.getContextPath() + "/manager/bookServlet?action=page&pageNo=" + req.getParameter("pageNo"));
     }
 
 

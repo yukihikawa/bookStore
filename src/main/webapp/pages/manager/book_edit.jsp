@@ -35,6 +35,8 @@ language="java" %>
 		
 		<div id="main">
 			<form action="manager/bookServlet" method="get">
+				<input type="hidden" name="pageNo" value="${param.pageNo}">
+				<input type="hidden" name="pageTotal" value="${param.pageTotal}">
 				<input type="hidden" name="action" value="${empty param.id ? "addBook" : "update"}">
 				<input type="hidden" name="id" value="${requestScope.book.id}">
 				<table>
