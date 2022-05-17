@@ -100,7 +100,8 @@ public class BookServlet extends BaseServlet {
         int pageSize = WebUtils.parseInt(req.getParameter("pageSize"), Page.PAGE_SIZE);
         //调用pageService.page()获取page
         Page<Book> page = bookService.page(pageNo, pageSize);
-
+        //设置URL
+        page.setUrl("manager/bookServlet?action=page");
         req.setAttribute("page", page);
         req.getRequestDispatcher("/pages/manager/book_manager.jsp").forward(req,resp);
     }

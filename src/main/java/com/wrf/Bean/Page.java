@@ -27,6 +27,8 @@ public class Page<T> {
     private Integer pageTotalCount;
 
     private List<T> items;
+    //分页栏url
+    private String url;
 
     public void setPageNo(Integer pageNo) {
         if (pageNo < 1) {
