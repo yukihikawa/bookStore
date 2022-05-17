@@ -30,6 +30,6 @@ public interface BookService {
     //获取page
     public Page<Book> page(int pagNo, int pageSize);
 
-
+    public Page<Book> pageByPrice(int pagNo, int pageSize, int min, int max);
 
 }

@@ -1,6 +1,5 @@
 package com.wrf.dao.impl;
 
-import com.wrf.Bean.Page;
 import com.wrf.dao.BaseDao;
 import com.wrf.dao.BookDao;
 import com.wrf.Bean.Book;
@@ -63,12 +62,26 @@ public class BookDaoImpl extends BaseDao implements BookDao {
         return count.intValue();
     }
 
+    @Override
+    public Integer queryForPageTotalCount(int min, int max){
+        String sql = "SELECT COUNT(*) FROM t_book WHERE price BETWEEN ? AND ?";
+        Number count = (Number) queryForSingleValue(sql, min, max);
+        return count.intValue();
+    }
+
     //单页元素, 按照首位查询一页上的所有book
     @Override
     public List<Book> queryForPageElement(int begin, int pageSize) {
         String sql = "SELECT `id` , `name` , `author` , `price` , `sales` , `stock` , `img_path` imgPath FROM t_book LIMIT ?, ?";
         return queryForList(Book.class,sql,begin,pageSize);
     }
+
+    @Override
+    public List<Book> queryForPageElement(int begin, int pageSize, int min, int max) {
+        String sql = "SELECT `id` , `name` , `author` , `price` , `sales` , `stock` , `img_path` imgPath FROM t_book WHERE price BETWEEN ? AND ? ORDER BY price DESC LIMIT ?, ?";
+        return queryForList(Book.class,sql,min, max, begin,pageSize);
+    }
+
 
 
 

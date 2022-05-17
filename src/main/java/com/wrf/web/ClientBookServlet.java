@@ -36,9 +36,23 @@ public class ClientBookServlet extends BaseServlet{
         //获取请求的参数pageNo和pageSize
         int pageNo = WebUtils.parseInt(req.getParameter("pageNo"), 1);
         int pageSize = WebUtils.parseInt(req.getParameter("pageSize"), Page.PAGE_SIZE);
+        String minStr = req.getParameter("min");
+        String maxStr = req.getParameter("max");
+        int min = WebUtils.parseInt(minStr, 0);
+        int max = WebUtils.parseInt(maxStr, Integer.MAX_VALUE);
         //调用pageService.page()获取page
-        Page<Book> page = bookService.page(pageNo, pageSize);
-        page.setUrl("client/clientbookServlet?action=pageByPrice");
+        log.info("@CBServlet : " + pageNo +" " + pageSize + " " + min + " " + max);
+        Page<Book> page = bookService.pageByPrice(pageNo, pageSize, min, max);
+        log.info("@CBServlet : ");
+        log.info(page.getItems().toString());
+        String url = "client/clientbookServlet?action=pageByPrice";
+        if (minStr != null && !"".equals(minStr)) {
+            url += "&min=" + minStr;
+        }
+        if (maxStr != null && !"".equals(maxStr)) {
+            url += "&max=" + maxStr;
+        }
+        page.setUrl(url);
 
         req.setAttribute("page", page);
         req.getRequestDispatcher("/pages/client/index.jsp").forward(req, resp);
