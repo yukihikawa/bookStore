@@ -4,6 +4,7 @@ import com.wrf.AppConfig;
 import com.wrf.Bean.User;
 import com.wrf.service.impl.UserServiceImpl;
 import com.wrf.utils.WebUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
@@ -19,6 +20,8 @@ import java.io.IOException;
  * @author: Rifu Wu
  * @create: 2022-05-14 20:06
  **/
+
+@Slf4j
 public class UserServlet extends BaseServlet {
     UserServiceImpl userService;
 
@@ -28,6 +31,13 @@ public class UserServlet extends BaseServlet {
         this.userService  = context.getBean(UserServiceImpl.class);
     }
 
+    /**
+     * 登录
+     * @param req
+     * @param resp
+     * @throws ServletException
+     * @throws IOException
+     */
     private void login(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
         String username = req.getParameter("username");
         String password = req.getParameter("password");
@@ -35,7 +45,9 @@ public class UserServlet extends BaseServlet {
         if(userService.existsUsername(username)){
             User user = WebUtils.copyParamToBean(req.getParameterMap(), new User());
             if(userService.login(user) != null) {
-                System.out.println("login success!");
+                //登陆成功
+                log.info(username + " login success!");
+                req.getSession().setAttribute("user", user);
                 req.getRequestDispatcher("/pages/user/login_success1.jsp").forward(req, resp);
             }
             else {
@@ -55,6 +67,13 @@ public class UserServlet extends BaseServlet {
 
     }
 
+    /**
+     * 注册方法
+     * @param req
+     * @param resp
+     * @throws ServletException
+     * @throws IOException
+     */
     private void regist(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         // 1、获取请求的参数
         /*String username = req.getParameter("username");
@@ -85,6 +104,12 @@ public class UserServlet extends BaseServlet {
             System.out.println("verification code [" + code + "] error!");
             req.getRequestDispatcher("/pages/user/regist.jsp").forward(req, resp);
         }
+    }
+
+    private void logout(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        //销毁Session中的登录信息
+        req.getSession().invalidate();
+        resp.sendRedirect(req.getContextPath());
     }
 
 
