@@ -24,10 +24,12 @@ public class WebUtils {
     }
 
     public static int parseInt(String strInt, int defaultValue){
-        try {
-            return Integer.parseInt(strInt);
-        } catch (NumberFormatException e) {
-            e.printStackTrace();
+        if(strInt != null){
+            try {
+                return Integer.parseInt(strInt);
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+            }
         }
         return defaultValue;
     }

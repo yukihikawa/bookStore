@@ -43,8 +43,8 @@ public class ClientBookServlet extends BaseServlet{
         //调用pageService.page()获取page
         log.info("@CBServlet : " + pageNo +" " + pageSize + " " + min + " " + max);
         Page<Book> page = bookService.pageByPrice(pageNo, pageSize, min, max);
-        log.info("@CBServlet : ");
-        log.info(page.getItems().toString());
+        /*log.info("@CBServlet : ");
+        log.info(page.getItems().toString());*/
         String url = "client/clientbookServlet?action=pageByPrice";
         if (minStr != null && !"".equals(minStr)) {
             url += "&min=" + minStr;

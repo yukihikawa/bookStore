@@ -155,10 +155,16 @@
                                name="code"
                                style="width: 150px;"
                                id="code"
-                               value="abcde"/>
+                               value=""/>
                         <img alt=""
-                             src="static/img/code.bmp"
-                             style="float: right; margin-right: 40px">
+                             id="kaptcha"
+                             src="kaptcha.jpg"
+                             style="float: right; margin-right: 40px; width: 100px; height: 28px">
+                        <script type="text/javascript">
+                            $("#kaptcha").click(function (){
+                                this.src="kaptcha.jpg?d=" + new Date();
+                            });
+                        </script>
                         <br/>
                         <br/>
                         <input type="submit"

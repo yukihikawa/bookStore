@@ -96,9 +96,9 @@ public class BookServiceImpl implements BookService {
         if(begin < 0)
             begin= 0;
         int size = page.getPageSize();
-        log.info("begin : " + begin);
+        /*log.info("begin : " + begin);
         log.info("size : " + size);
-
+*/
         List<Book> items = bookDao.queryForPageElement(begin, size, min, max);
 
         page.setItems(items);

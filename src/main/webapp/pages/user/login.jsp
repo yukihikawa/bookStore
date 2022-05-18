@@ -69,6 +69,24 @@
                                name="password"/>
                         <br/>
                         <br/>
+                        <label>验证码：  </label>
+                        <input class="itxt"
+                               type="text"
+                               name="code"
+                               style="width: 150px;"
+                               id="code"
+                               value=""/>
+                        <img alt=""
+                             id="kaptcha"
+                             src="kaptcha.jpg"
+                             style="float: right; margin-right: 40px; width: 100px; height: 28px">
+                        <script type="text/javascript">
+                            $("#kaptcha").click(function (){
+                                this.src="kaptcha.jpg?d=" + new Date();
+                            });
+                        </script>
+                        <br/>
+                        <br/>
                         <input type="submit"
                                value="登录"
                                id="sub_btn"/>

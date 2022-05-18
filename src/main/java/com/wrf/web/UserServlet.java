@@ -14,6 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static com.google.code.kaptcha.Constants.KAPTCHA_SESSION_KEY;
+
 /**
  * @program: bookStore
  * @description: user模块
@@ -40,30 +42,46 @@ public class UserServlet extends BaseServlet {
      */
     private void login(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
         String username = req.getParameter("username");
+        /*
         String password = req.getParameter("password");
+        */
+        String code = req.getParameter("code");
+        String token = (String) req.getSession().getAttribute(KAPTCHA_SESSION_KEY);
+        req.getSession().removeAttribute(KAPTCHA_SESSION_KEY);
+        log.info("Token is : " + token);
 
-        if(userService.existsUsername(username)){
-            User user = WebUtils.copyParamToBean(req.getParameterMap(), new User());
-            if(userService.login(user) != null) {
-                //登陆成功
-                log.info(username + " login success!");
-                req.getSession().setAttribute("user", user);
-                req.getRequestDispatcher("/pages/user/login_success1.jsp").forward(req, resp);
+        if(token.equalsIgnoreCase(code)){
+            if(userService.existsUsername(username)){
+                User user = WebUtils.copyParamToBean(req.getParameterMap(), new User());
+                if(userService.login(user) != null) {
+                    //登陆成功
+                    log.info(username + " login success!");
+                    req.getSession().setAttribute("user", user);
+                    req.getRequestDispatcher("/pages/user/login_success1.jsp").forward(req, resp);
+                }
+                else {
+                    req.setAttribute("msg", "密码错误");
+                    req.setAttribute("username", username);
+                    log.info("password error!");
+                    req.getRequestDispatcher("/pages/user/login.jsp").forward(req, resp);
+                }
             }
             else {
-                req.setAttribute("msg", "密码错误");
+                //吧回显表单项信息保存到Request域
+                req.setAttribute("msg", "用户不存在");
                 req.setAttribute("username", username);
-                System.out.println("password error!");
+                System.out.println("user does not exist!");
                 req.getRequestDispatcher("/pages/user/login.jsp").forward(req, resp);
             }
         }
         else {
-            //吧回显表单项信息保存到Request域
-            req.setAttribute("msg", "用户不存在");
+            req.setAttribute("msg", "验证码错误");
             req.setAttribute("username", username);
-            System.out.println("user does not exist!");
+            log.info("verification code [" + code + "] error!");
             req.getRequestDispatcher("/pages/user/login.jsp").forward(req, resp);
         }
+
+
 
     }
 
@@ -81,10 +99,12 @@ public class UserServlet extends BaseServlet {
         String email = req.getParameter("email");*/
 
         String code = req.getParameter("code");
-
+        String token = (String) req.getSession().getAttribute(KAPTCHA_SESSION_KEY);
+        req.getSession().removeAttribute(KAPTCHA_SESSION_KEY);
+        log.info("Token is : " + token);
         User user = WebUtils.copyParamToBean(req.getParameterMap(), new User());
-        String checkCode = "abcde";
-        if(checkCode.equalsIgnoreCase(code)){
+
+        if(token.equalsIgnoreCase(code)){
             if(userService.existsUsername(user.getUsername())){
                 req.setAttribute("msg", "用户名已存在");
                 req.setAttribute("username", user.getUsername());
