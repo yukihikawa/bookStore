@@ -9,6 +9,14 @@ language="java" %>
 	<meta charset="UTF-8">
 	<title>书城首页</title>
 	<%@include file="../common/head.jsp"%>
+	<script type="text/javascript">
+		$(function (){
+			$("button.addToCart").click(function (){
+				var bookId = $(this).attr("bookId");
+				location.href = "cartServlet?action=addItem&id=" + bookId;
+			});
+		});
+	</script>
 </head>
 <body>
 	
@@ -42,10 +50,20 @@ language="java" %>
 				</form>
 			</div>
 			<div style="text-align: center">
-				<span>您的购物车中有3件商品</span>
-				<div>
-					您刚刚将<span style="color: red">时间简史</span>加入到了购物车中
-				</div>
+				<c:if test="${empty sessionScope.cart.items}">
+					<span> </span>
+					<div>
+						<span style="color: red">当前购物车为空</span>
+					</div>
+				</c:if>
+
+				<c:if test="${not empty sessionScope.cart.items}">
+					<span>您的购物车中有${sessionScope.cart.totalCount}件商品</span>
+					<div>
+						您刚刚将<span style="color: red">${sessionScope.lastname}</span>加入到了购物车中
+					</div>
+				</c:if>
+
 			</div>
 
 			<c:forEach items="${requestScope.page.items}" var="book">
@@ -75,7 +93,7 @@ language="java" %>
 							<span class="sp2">${book.stock}</span>
 						</div>
 						<div class="book_add">
-							<button>加入购物车</button>
+							<button class="addToCart" bookId="${book.id}" >加入购物车</button>
 						</div>
 					</div>
 				</div>

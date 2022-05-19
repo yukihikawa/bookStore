@@ -1,15 +1,7 @@
 package com.wrf.web;
 
-import com.wrf.AppConfig;
-import com.wrf.dao.BaseDao;
-import com.wrf.service.impl.UserServiceImpl;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
-import javax.servlet.ServletConfig;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

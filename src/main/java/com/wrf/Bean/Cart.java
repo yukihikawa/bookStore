@@ -1,5 +1,9 @@
 package com.wrf.Bean;
 
+import com.wrf.Bean.CartItem;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
+
 import java.math.BigDecimal;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -11,6 +15,8 @@ import java.util.Map;
  * @create: 2022-05-17 22:02
  **/
 
+@Component
+@Slf4j
 public class Cart {
     private Map<Integer, CartItem> items = new LinkedHashMap<>();
 
@@ -32,11 +38,84 @@ public class Cart {
         }
     }
 
+    /**
+     * 删除商品项
+     * @param id
+     */
     public void deleteItem(Integer id){
         items.remove(id);
     }
 
-    public void updateCount(Integer id, Integer count){
+    /**
+     * 清空购物车
+     */
+    public void clear(){
+        items.clear();
+    }
 
+    /**
+     * 更新购物车
+     * @param id
+     * @param count
+     */
+    public void updateCount(Integer id, Integer count){
+        //查看购物车中是否已有
+        CartItem item = items.get(id);
+
+        if(item != null){
+            item.setCount(count);
+            BigDecimal total = item.getPrice().multiply(new BigDecimal(item.getCount()));
+            item.setTotalPrice(total);
+        }
+    }
+
+
+    /**
+     * 获取购物车中总数
+     * @return
+     */
+    public Integer getTotalCount(){
+        Integer totalCount = 0;
+        for (Map.Entry<Integer, CartItem> entry : items.entrySet())
+            totalCount += entry.getValue().getCount();
+
+        return totalCount;
+    }
+
+
+    /**
+     * @return 购物车中总价
+     */
+    public BigDecimal getTotalPrice(){
+        BigDecimal totalPrice = new BigDecimal(0);
+        for(Map.Entry<Integer, CartItem> entry : items.entrySet())
+            totalPrice = totalPrice.add(entry.getValue().getTotalPrice());
+
+        return totalPrice;
+    }
+
+
+    /**
+     * @return 购物车中对象
+     */
+    public Map<Integer, CartItem> getItems(){
+        return items;
+    }
+
+
+    /**
+     * @param items
+     */
+    public void setItems(Map<Integer, CartItem> items){
+        this.items = items;
+    }
+
+    @Override
+    public String toString() {
+        return "Cart{" +
+                "totalCount=" + getTotalCount() +
+                ", totalPrice=" + getTotalPrice() +
+                ", items=" + items +
+                "}";
     }
 }
