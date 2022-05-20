@@ -95,6 +95,7 @@
         <servlet-name>ClientBookServlet</servlet-name>
         <url-pattern>/client/clientbookServlet</url-pattern>
     </servlet-mapping>
+    <!--购物车-->
     <servlet>
         <servlet-name>CartServlet</servlet-name>
         <servlet-class>com.wrf.web.CartServlet</servlet-class>
@@ -102,6 +103,16 @@
     <servlet-mapping>
         <servlet-name>CartServlet</servlet-name>
         <url-pattern>/cartServlet</url-pattern>
+    </servlet-mapping>
+
+    <!--订单-->
+    <servlet>
+        <servlet-name>OrderServlet</servlet-name>
+        <servlet-class>com.wrf.web.OrderServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>OrderServlet</servlet-name>
+        <url-pattern>/orderServlet</url-pattern>
     </servlet-mapping>
 
     <!--验证码-->

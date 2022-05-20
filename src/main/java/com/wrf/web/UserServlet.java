@@ -52,8 +52,8 @@ public class UserServlet extends BaseServlet {
 
         if(token.equalsIgnoreCase(code)){
             if(userService.existsUsername(username)){
-                User user = WebUtils.copyParamToBean(req.getParameterMap(), new User());
-                if(userService.login(user) != null) {
+                User user = userService.login(WebUtils.copyParamToBean(req.getParameterMap(), new User()));
+                if(user != null) {
                     //登陆成功
                     log.info(username + " login success!");
                     req.getSession().setAttribute("user", user);

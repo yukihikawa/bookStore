@@ -1,5 +1,6 @@
 package com.wrf.service.impl;
 
+import com.wrf.dao.UserDao;
 import com.wrf.dao.impl.UserDaoImpl;
 import com.wrf.Bean.User;
 import com.wrf.service.UserService;
@@ -15,7 +16,7 @@ import org.springframework.stereotype.Component;
 public class UserServiceImpl implements UserService {
 
     final
-    UserDaoImpl userDao;
+    UserDao userDao;
 
     public UserServiceImpl(UserDaoImpl userDao) {
         this.userDao = userDao;

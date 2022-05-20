@@ -24,7 +24,7 @@ class UserServiceImplTest {
 
     @Test
     void existsUsername() {
-        if (userService.existsUsername("bbjr168")) {
+        if (userService.existsUsername("wrfabc")) {
             System.out.println("用户名已存在！");
         } else {
             System.out.println("用户名可用！");

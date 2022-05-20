@@ -1,6 +1,7 @@
 package com.wrf.service.impl;
 
 import com.wrf.Bean.Page;
+import com.wrf.dao.BookDao;
 import com.wrf.dao.impl.BookDaoImpl;
 import com.wrf.Bean.Book;
 import com.wrf.service.BookService;
@@ -20,7 +21,7 @@ import java.util.List;
 public class BookServiceImpl implements BookService {
 
     final
-    BookDaoImpl bookDao;
+    BookDao bookDao;
 
     public BookServiceImpl(BookDaoImpl bookdao) {
         this.bookDao = bookdao;
