@@ -13,7 +13,7 @@
 <head>
     <meta charset="UTF-8">
     <title>
-        尚硅谷会员注册页面</title>
+        尚硅谷会员登录成功</title>
 
     <%--静态包含base，css文件，jquery--%>
     <%@include
@@ -36,7 +36,7 @@
          src="static/img/logo.gif">
     <%@include
             file="/pages/common/login_success_menu.jsp" %>
-    >
+
 </div>
 
 <div id="main">

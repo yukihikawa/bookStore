@@ -70,7 +70,7 @@ public class ClientOrderServlet extends BaseServlet{
             resp.sendRedirect(req.getContextPath() + "/pages/user/login.jsp");
         else {
             log.info(user.getId() + "");
-            List<Order> orders = orderService.showMyOrders(80);
+            List<Order> orders = orderService.showMyOrders(user.getId());
             log.info(orders.toString());
             req.setAttribute("myOrders", orders);
             req.getRequestDispatcher("/pages/order/order.jsp").forward(req, resp);

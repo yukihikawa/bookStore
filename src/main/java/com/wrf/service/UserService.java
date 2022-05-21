@@ -1,31 +1,35 @@
 package com.wrf.service;
 
 import com.wrf.Bean.User;
+import com.wrf.mapper.UserMapper;
+import com.wrf.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @program: bookStore
- * @description: user service
+ * @description: shix
  * @author: Rifu Wu
- * @create: 2022-05-10 22:08
+ * @create: 2022-05-22 00:48
  **/
-public interface UserService {
-    /**
-     * 注册用户
-     * @param user
-     */
-    public void registUser(User user);
+@Component
+@Transactional
+public class UserService {
+    @Autowired
+    UserMapper userMapper;
 
-    /**
-     * 登录
-     * @param user
-     * @return 如果返回 null，说明登录失败，返回有值，是登录成功
-     */
-    public User login(User user);
+    public void registUser(User user){
+        userMapper.saveUser(user.getUsername(), user.getPassword(), user.getEmail());
+    }
 
-    /**
-     * 检查 用户名是否可用
-     * @param username
-     * @return 返回 true 表示用户名已存在，返回 false 表示用户名可用
-     */
-    public boolean existsUsername(String username);
+    public User login(User user){
+        return userMapper.queryUserByUsernameAndPassword(user.getUsername(), user.getPassword());
+    }
+
+    public boolean existsUsername(String username) {
+        if(userMapper.queryUserByUsername(username) == null)
+            return false;
+        return true;
+    }
 }

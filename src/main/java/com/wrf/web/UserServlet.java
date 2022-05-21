@@ -2,7 +2,7 @@ package com.wrf.web;
 
 import com.wrf.AppConfig;
 import com.wrf.Bean.User;
-import com.wrf.service.impl.UserServiceImpl;
+import com.wrf.service.UserService;
 import com.wrf.utils.WebUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationContext;
@@ -25,12 +25,12 @@ import static com.google.code.kaptcha.Constants.KAPTCHA_SESSION_KEY;
 
 @Slf4j
 public class UserServlet extends BaseServlet {
-    UserServiceImpl userService;
+    UserService userService;
 
     @Override
     public void init(ServletConfig config) {
         ApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
-        this.userService  = context.getBean(UserServiceImpl.class);
+        this.userService  = context.getBean(UserService.class);
     }
 
     /**
@@ -114,6 +114,7 @@ public class UserServlet extends BaseServlet {
             }
             else {
                 userService.registUser(user);
+                req.getSession().setAttribute("user", user);
                 req.getRequestDispatcher("/pages/user/regist_success.jsp").forward(req, resp);
             }
         }

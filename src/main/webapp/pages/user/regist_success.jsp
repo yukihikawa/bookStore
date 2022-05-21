@@ -31,7 +31,7 @@
 
     <%@include
             file="/pages/common/login_success_menu.jsp" %>
-    >
+
 </div>
 
 <div id="main">
