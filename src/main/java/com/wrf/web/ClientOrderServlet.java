@@ -2,8 +2,10 @@ package com.wrf.web;
 
 import com.wrf.AppConfig;
 import com.wrf.Bean.Cart;
+import com.wrf.Bean.Order;
 import com.wrf.Bean.User;
 import com.wrf.service.impl.OrderServiceImpl;
+import com.wrf.utils.WebUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -13,16 +15,16 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * @program: bookStore
- * @description:
+ * @description: 用户订单管理
  * @author: Rifu Wu
- * @create: 2022-05-20 16:18
+ * @create: 2022-05-20 22:37
  **/
 @Slf4j
-public class OrderServlet extends BaseServlet{
-
+public class ClientOrderServlet extends BaseServlet{
     private OrderServiceImpl orderService;
 
     @Override
@@ -31,6 +33,13 @@ public class OrderServlet extends BaseServlet{
         this.orderService  = context.getBean(OrderServiceImpl.class);
     }
 
+    /**
+     * c创建订单
+     * @param req
+     * @param resp
+     * @throws ServletException
+     * @throws IOException
+     */
     protected void createOrder(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Cart cart = (Cart) req.getSession().getAttribute("cart");
         User loginUser = (User) req.getSession().getAttribute("user");
@@ -49,6 +58,37 @@ public class OrderServlet extends BaseServlet{
 
         resp.sendRedirect(req.getContextPath() + "/pages/cart/checkout.jsp");
     }
+
+    /**
+     * 查看订单（用户
+     * @param req
+     * @param resp
+     */
+    protected void showMyOrders(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+        User user = (User) req.getSession().getAttribute("user");
+        if(user == null)
+            resp.sendRedirect(req.getContextPath() + "/pages/user/login.jsp");
+        else {
+            log.info(user.getId() + "");
+            List<Order> orders = orderService.showMyOrders(80);
+            log.info(orders.toString());
+            req.setAttribute("myOrders", orders);
+            req.getRequestDispatcher("/pages/order/order.jsp").forward(req, resp);
+        }
+    }
+
+    /**
+     * 订单签收（用户
+     * @param req
+     * @param resp
+     */
+    protected void receiveOrder(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+        String orderId = req.getParameter("orderId");
+        orderService.receiverOrder(orderId);
+        resp.sendRedirect(req.getHeader("referer"));
+    }
+
+    protected void showOrderDetail(HttpServletRequest req, HttpServletResponse resp){}
 
 
 }

@@ -32,7 +32,7 @@ language="java" %>
 
 				<c:if test="${not empty sessionScope.user}">
 					<span class="um_span">${sessionScope.user.username}</span>
-					<a href="pages/order/order.jsp">我的订单</a>
+					<a href="clientOrderServlet?action=showMyOrders">我的订单</a>
 					<a href="userServlet?action=logout">注销</a>&nbsp;&nbsp;
 					<a href="pages/cart/cart.jsp">购物车</a>
 				</c:if>
@@ -92,9 +92,12 @@ language="java" %>
 							<span class="sp1">库存:</span>
 							<span class="sp2">${book.stock}</span>
 						</div>
-						<div class="book_add">
-							<button class="addToCart" bookId="${book.id}" >加入购物车</button>
-						</div>
+						<c:if test="${not empty sessionScope.user}">
+							<div class="book_add">
+								<button class="addToCart" bookId="${book.id}" >加入购物车</button>
+							</div>
+						</c:if>
+
 					</div>
 				</div>
 			</c:forEach>

@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -18,7 +19,7 @@ import java.util.Date;
 @AllArgsConstructor
 public class Order {
     private String orderId;
-    private Date createTime;
+    private LocalDateTime createTime;
     private BigDecimal price;
     //订单状态，0未发货，1已发货
     private Integer status;

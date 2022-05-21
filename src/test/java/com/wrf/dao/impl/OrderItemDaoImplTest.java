@@ -2,6 +2,7 @@ package com.wrf.dao.impl;
 
 import com.wrf.AppConfig;
 import com.wrf.dao.OrderDao;
+import com.wrf.dao.OrderItemDao;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.ApplicationContext;
@@ -9,28 +10,19 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 
 import static org.junit.jupiter.api.Assertions.*;
 @Slf4j
-class OrderDaoImplTest {
-    OrderDao orderDao;
+class OrderItemDaoImplTest {
+    OrderItemDao orderItemDao;
     {
         ApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
-        this.orderDao  = context.getBean(OrderDao.class);
-    }
-    @Test
-    void saveOrder() {
+        this.orderItemDao  = context.getBean(OrderItemDao.class);
     }
 
     @Test
-    void queryOrders() {
-        log.info(orderDao.queryOrders().toString());
+    void saveOrderItem() {
     }
 
     @Test
-    void changeOrderStatus() {
-        log.info(orderDao.changeOrderStatus("165303961632080", 0)+"");
-    }
-
-    @Test
-    void queryOrdersByUserId() {
-        log.info(orderDao.queryOrdersByUserId(80).toString());
+    void queryOrderItemsByOrderId() {
+        log.info(orderItemDao.queryOrderItemsByOrderId("165303961632080").toString());
     }
 }

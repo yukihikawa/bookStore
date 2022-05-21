@@ -2,6 +2,8 @@ package com.wrf.dao;
 
 import com.wrf.Bean.OrderItem;
 
+import java.util.List;
+
 /**
  * @program: bookStore
  * @description: 订单条目项
@@ -10,4 +12,8 @@ import com.wrf.Bean.OrderItem;
  **/
 public interface OrderItemDao {
     public int saveOrderItem(OrderItem orderItem);
+
+    public List<OrderItem> queryOrderItemsByOrderId(String orderId);
+
+
 }

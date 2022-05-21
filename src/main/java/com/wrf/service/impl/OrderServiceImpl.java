@@ -8,9 +8,12 @@ import com.wrf.dao.impl.BookDaoImpl;
 import com.wrf.dao.impl.OrderDaoImpl;
 import com.wrf.dao.impl.OrderItemDaoImpl;
 import com.wrf.service.OrderService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -20,6 +23,7 @@ import java.util.Map;
  * @create: 2022-05-20 14:40
  **/
 @Component
+@Slf4j
 public class OrderServiceImpl implements OrderService {
     private final OrderDao orderDao;
     private final OrderItemDao orderItemDao;
@@ -31,12 +35,18 @@ public class OrderServiceImpl implements OrderService {
         this.bookDao = bookDao;
     }
 
+    /**
+     * 创建订单
+     * @param cart 购物车对象
+     * @param userId 用户id
+     * @return
+     */
     @Override
     public String createOrder(Cart cart, Integer userId) {
         //生成唯一订单号
         String orderId = System.currentTimeMillis()+""+userId;
         //创建订单对象
-        Order order = new Order(orderId, new Date(), cart.getTotalPrice(), 0, userId);
+        Order order = new Order(orderId, LocalDateTime.now(), cart.getTotalPrice(), 0, userId);
         orderDao.saveOrder(order);
 
         for(Map.Entry<Integer, CartItem> entry : cart.getItems().entrySet()){
@@ -52,5 +62,44 @@ public class OrderServiceImpl implements OrderService {
 
         cart.clear();
         return orderId;
+    }
+
+    /**
+     * 获取所有订单的列表
+     * @return
+     */
+    @Override
+    public List<Order> showAllOrders() {
+        return orderDao.queryOrders();
+    }
+
+    /**标记订单发货
+     * @param orderId
+     * @return
+     */
+    @Override
+    public int sendOrder(String orderId) {
+        return orderDao.changeOrderStatus(orderId, 1);
+    }
+
+    /**
+     * 订单详情
+     * @param orderId
+     * @return
+     */
+    @Override
+    public List<OrderItem> showOrderDetail(String orderId) {
+        return orderItemDao.queryOrderItemsByOrderId(orderId);
+    }
+
+    @Override
+    public List<Order> showMyOrders(Integer userId) {
+        log.info("Show My Orders, user: " + userId);
+        return orderDao.queryOrdersByUserId(userId);
+    }
+
+    @Override
+    public int receiverOrder(String orderId) {
+        return orderDao.changeOrderStatus(orderId, 2);
     }
 }

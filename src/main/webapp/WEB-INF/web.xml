@@ -107,12 +107,20 @@
 
     <!--订单-->
     <servlet>
-        <servlet-name>OrderServlet</servlet-name>
-        <servlet-class>com.wrf.web.OrderServlet</servlet-class>
+        <servlet-name>ClientOrderServlet</servlet-name>
+        <servlet-class>com.wrf.web.ClientOrderServlet</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>OrderServlet</servlet-name>
-        <url-pattern>/orderServlet</url-pattern>
+        <servlet-name>ClientOrderServlet</servlet-name>
+        <url-pattern>/clientOrderServlet</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>ManagerOrderServlet</servlet-name>
+        <servlet-class>com.wrf.web.ManagerOrderServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ManagerOrderServlet</servlet-name>
+        <url-pattern>/manager/managerOrderServlet</url-pattern>
     </servlet-mapping>
 
     <!--验证码-->
