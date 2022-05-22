@@ -2,6 +2,7 @@ package com.wrf.service.impl;
 
 import com.wrf.AppConfig;
 import com.wrf.Bean.Book;
+import com.wrf.service.BookService;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -11,11 +12,11 @@ import java.math.BigDecimal;
 
 class BookServiceImplTest {
 
-    BookServiceImpl bookService;
+    BookService bookService;
 
     {
         ApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
-        this.bookService  = context.getBean(BookServiceImpl.class);
+        this.bookService  = context.getBean(BookService.class);
 
     }
 

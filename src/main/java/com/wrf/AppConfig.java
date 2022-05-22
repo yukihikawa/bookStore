@@ -30,7 +30,6 @@ public class AppConfig {
     DataSource createDataSource() {
         String path = getClass().getClassLoader().getResource("hikari.properties").getPath();
         HikariConfig config = new HikariConfig(path);
-
         return new HikariDataSource(config);
     }
 

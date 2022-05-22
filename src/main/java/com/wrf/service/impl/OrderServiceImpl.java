@@ -1,18 +1,15 @@
 package com.wrf.service.impl;
 
 import com.wrf.Bean.*;
-import com.wrf.dao.BookDao;
 import com.wrf.dao.OrderDao;
 import com.wrf.dao.OrderItemDao;
-import com.wrf.dao.impl.BookDaoImpl;
-import com.wrf.dao.impl.OrderDaoImpl;
-import com.wrf.dao.impl.OrderItemDaoImpl;
+import com.wrf.mapper.BookMapper;
 import com.wrf.service.OrderService;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -24,16 +21,13 @@ import java.util.Map;
  **/
 @Component
 @Slf4j
+@AllArgsConstructor
 public class OrderServiceImpl implements OrderService {
-    private final OrderDao orderDao;
-    private final OrderItemDao orderItemDao;
-    private final BookDao bookDao;
+    OrderDao orderDao;
+    OrderItemDao orderItemDao;
+    BookMapper bookMapper;
 
-    public OrderServiceImpl(OrderDaoImpl orderDao, OrderItemDaoImpl orderItemDao, BookDaoImpl bookDao) {
-        this.orderDao = orderDao;
-        this.orderItemDao = orderItemDao;
-        this.bookDao = bookDao;
-    }
+
 
     /**
      * 创建订单
@@ -53,10 +47,10 @@ public class OrderServiceImpl implements OrderService {
             CartItem cartItem = entry.getValue();
             OrderItem orderItem = new OrderItem(null, cartItem.getName(), cartItem.getCount(), cartItem.getPrice(), cartItem.getTotalPrice(), orderId);
             orderItemDao.saveOrderItem(orderItem);
-            Book book = bookDao.queryBookByID(cartItem.getId());
+            Book book = bookMapper.queryBookById(cartItem.getId());
             book.setSales(book.getSales() + cartItem.getCount());
             book.setStock(book.getStock() - cartItem.getCount());
-            bookDao.updateBook(book);
+            bookMapper.updateBook(book);
 
         }
 

@@ -3,7 +3,7 @@ package com.wrf.web;
 import com.wrf.AppConfig;
 import com.wrf.Bean.Book;
 import com.wrf.Bean.Page;
-import com.wrf.service.impl.BookServiceImpl;
+import com.wrf.service.BookService;
 import com.wrf.utils.WebUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationContext;
@@ -14,7 +14,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.List;
 
 /**
  * @program: bookStore
@@ -24,13 +23,13 @@ import java.util.List;
  **/
 @Slf4j
 public class BookServlet extends BaseServlet {
-    BookServiceImpl bookService;
+    BookService bookService;
 
 
     @Override
     public void init(ServletConfig config) {
         ApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
-        this.bookService  = context.getBean(BookServiceImpl.class);
+        this.bookService  = context.getBean(BookService.class);
     }
 
     //响应图书管理请求，列出所有图书 已被page取代

@@ -5,7 +5,6 @@ import com.wrf.Bean.Book;
 import com.wrf.Bean.Cart;
 import com.wrf.Bean.CartItem;
 import com.wrf.service.BookService;
-import com.wrf.service.impl.BookServiceImpl;
 import com.wrf.utils.WebUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationContext;
@@ -24,12 +23,12 @@ import java.io.IOException;
  **/
 @Slf4j
 public class CartServlet extends BaseServlet{
-    BookServiceImpl bookService;
+    BookService bookService;
 
     @Override
     public void init(ServletConfig config) {
         ApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
-        this.bookService  = context.getBean(BookServiceImpl.class);
+        this.bookService  = context.getBean(BookService.class);
     }
 
     /**

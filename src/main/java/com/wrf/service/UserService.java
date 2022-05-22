@@ -2,8 +2,8 @@ package com.wrf.service;
 
 import com.wrf.Bean.User;
 import com.wrf.mapper.UserMapper;
-import com.wrf.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,16 +15,20 @@ import org.springframework.transaction.annotation.Transactional;
  **/
 @Component
 @Transactional
+@Slf4j
+@AllArgsConstructor
 public class UserService {
-    @Autowired
+    final
     UserMapper userMapper;
 
     public void registUser(User user){
-        userMapper.saveUser(user.getUsername(), user.getPassword(), user.getEmail());
+        userMapper.saveUser(user);
+
     }
 
     public User login(User user){
-        return userMapper.queryUserByUsernameAndPassword(user.getUsername(), user.getPassword());
+        /*return userMapper.queryUserByUsernameAndPassword(user.getUsername(), user.getPassword());*/
+        return userMapper.queryUserByUsernameAndPassword(user);
     }
 
     public boolean existsUsername(String username) {

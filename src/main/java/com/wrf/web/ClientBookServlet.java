@@ -3,7 +3,7 @@ package com.wrf.web;
 import com.wrf.AppConfig;
 import com.wrf.Bean.Book;
 import com.wrf.Bean.Page;
-import com.wrf.service.impl.BookServiceImpl;
+import com.wrf.service.BookService;
 import com.wrf.utils.WebUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationContext;
@@ -23,13 +23,12 @@ import java.io.IOException;
  **/
 @Slf4j
 public class ClientBookServlet extends BaseServlet{
-    BookServiceImpl bookService;
-
+    BookService bookService;
 
     @Override
     public void init(ServletConfig config) {
         ApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
-        this.bookService  = context.getBean(BookServiceImpl.class);
+        this.bookService  = context.getBean(BookService.class);
     }
 
     public void pageByPrice(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
