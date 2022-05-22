@@ -2,7 +2,7 @@ package com.wrf.web;
 
 import com.wrf.AppConfig;
 import com.wrf.Bean.Order;
-import com.wrf.service.impl.OrderServiceImpl;
+import com.wrf.service.OrderService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -23,12 +23,12 @@ import java.util.List;
 @Slf4j
 public class ManagerOrderServlet extends BaseServlet{
 
-    private OrderServiceImpl orderService;
+    OrderService orderService;
 
     @Override
     public void init(ServletConfig config) {
         ApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
-        this.orderService  = context.getBean(OrderServiceImpl.class);
+        this.orderService  = context.getBean(OrderService.class);
     }
 
 

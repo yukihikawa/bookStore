@@ -1,14 +1,12 @@
 package com.wrf.dao.impl;
 
 import com.wrf.AppConfig;
-import com.wrf.dao.OrderDao;
 import com.wrf.dao.OrderItemDao;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
-import static org.junit.jupiter.api.Assertions.*;
 @Slf4j
 class OrderItemDaoImplTest {
     OrderItemDao orderItemDao;

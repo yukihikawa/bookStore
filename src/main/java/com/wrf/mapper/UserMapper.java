@@ -39,6 +39,6 @@ public interface UserMapper {
      * @param user
      */
     @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
-    @Insert("INSERT INTO t_user(`username`,`password`,`email`) VALUES(#{user.username}, #{user.password}, #{user.email})")
+    @Insert("INSERT INTO t_user(username, password, email) VALUES(#{user.username}, #{user.password}, #{user.email})")
     void saveUser(@Param("user") User user);
 }

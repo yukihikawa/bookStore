@@ -4,6 +4,7 @@ import com.wrf.AppConfig;
 import com.wrf.Bean.Cart;
 import com.wrf.Bean.CartItem;
 import com.wrf.Bean.Order;
+import com.wrf.service.OrderService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.ApplicationContext;
@@ -14,11 +15,11 @@ import java.util.List;
 
 @Slf4j
 class OrderServiceImplTest {
-    OrderServiceImpl orderService;
+    OrderService orderService;
 
     {
         ApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
-        this.orderService  = context.getBean(OrderServiceImpl.class);
+        this.orderService  = context.getBean(OrderService.class);
 
     }
 

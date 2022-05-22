@@ -14,7 +14,7 @@ class UserServiceImplTest {
     @Test
     void registUser() {
         userService.registUser(new User(null, "bbj168", "666666", "bbj168@qq.com"));
-        userService.registUser(new User(null, "bbj168", "666666", "bbj168@qq.com"));
+        /*userService.registUser(new User(null, "bbj168", "666666", "bbj168@qq.com"));*/
         userService.registUser(new User(null, "abc168", "666666", "abc168@qq.com"));
     }
 
