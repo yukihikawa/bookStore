@@ -2,7 +2,6 @@ package com.wrf;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
-import org.apache.commons.dbutils.QueryRunner;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,12 +30,6 @@ public class AppConfig {
         String path = getClass().getClassLoader().getResource("hikari.properties").getPath();
         HikariConfig config = new HikariConfig(path);
         return new HikariDataSource(config);
-    }
-
-    //DBUtil
-    @Bean
-    QueryRunner createQueryRunner(@Autowired DataSource dataSource) {
-        return new QueryRunner(dataSource);
     }
 
     //MyBatis
