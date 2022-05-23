@@ -1,9 +1,9 @@
 package com.wrf.service;
 
-import com.wrf.Bean.*;
-import com.wrf.mapper.BookMapper;
-import com.wrf.mapper.OrderItemMapper;
-import com.wrf.mapper.OrderMapper;
+import com.wrf.entity.*;
+import com.wrf.service.mapper.BookMapper;
+import com.wrf.service.mapper.OrderItemMapper;
+import com.wrf.service.mapper.OrderMapper;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;

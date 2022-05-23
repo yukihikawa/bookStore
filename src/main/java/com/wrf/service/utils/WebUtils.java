@@ -1,4 +1,4 @@
-package com.wrf.utils;
+package com.wrf.service.utils;
 
 import org.apache.commons.beanutils.BeanUtils;
 

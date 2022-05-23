@@ -1,9 +1,9 @@
 package com.wrf.service.impl;
 
 import com.wrf.AppConfig;
-import com.wrf.Bean.Cart;
-import com.wrf.Bean.CartItem;
-import com.wrf.Bean.Order;
+import com.wrf.entity.Cart;
+import com.wrf.entity.CartItem;
+import com.wrf.entity.Order;
 import com.wrf.service.OrderService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;

@@ -1,7 +1,7 @@
 package com.wrf.service.impl;
 
 import com.wrf.AppConfig;
-import com.wrf.Bean.Book;
+import com.wrf.entity.Book;
 import com.wrf.service.BookService;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.ApplicationContext;

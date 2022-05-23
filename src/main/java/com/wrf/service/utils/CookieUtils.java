@@ -1,4 +1,4 @@
-package com.wrf.utils;
+package com.wrf.service.utils;
 
 import javax.servlet.http.Cookie;
 

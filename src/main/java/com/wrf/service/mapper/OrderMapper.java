@@ -1,6 +1,6 @@
-package com.wrf.mapper;
+package com.wrf.service.mapper;
 
-import com.wrf.Bean.Order;
+import com.wrf.entity.Order;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;

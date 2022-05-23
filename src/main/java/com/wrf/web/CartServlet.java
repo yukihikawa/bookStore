@@ -1,11 +1,11 @@
 package com.wrf.web;
 
 import com.wrf.AppConfig;
-import com.wrf.Bean.Book;
-import com.wrf.Bean.Cart;
-import com.wrf.Bean.CartItem;
+import com.wrf.entity.Book;
+import com.wrf.entity.Cart;
+import com.wrf.entity.CartItem;
 import com.wrf.service.BookService;
-import com.wrf.utils.WebUtils;
+import com.wrf.service.utils.WebUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;

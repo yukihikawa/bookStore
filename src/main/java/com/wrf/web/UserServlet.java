@@ -1,9 +1,9 @@
 package com.wrf.web;
 
 import com.wrf.AppConfig;
-import com.wrf.Bean.User;
+import com.wrf.entity.User;
 import com.wrf.service.UserService;
-import com.wrf.utils.WebUtils;
+import com.wrf.service.utils.WebUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;

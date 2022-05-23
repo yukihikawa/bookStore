@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import javax.sql.DataSource;
 
@@ -22,9 +23,13 @@ import javax.sql.DataSource;
  **/
 @Configuration
 @ComponentScan
-@MapperScan("com.wrf.mapper")
+@MapperScan("com.wrf.service.mapper")
 @EnableTransactionManagement
+@EnableWebMvc
 public class AppConfig {
+
+    //ORM相关
+    //HIkari连接池的datasource
     @Bean
     DataSource createDataSource() {
         String path = getClass().getClassLoader().getResource("hikari.properties").getPath();
@@ -40,9 +45,13 @@ public class AppConfig {
         return sqlSessionFactoryBean;
     }
 
+    //事务管理
     @Bean
     PlatformTransactionManager createTxManger(@Autowired DataSource dataSource) {
         return new DataSourceTransactionManager(dataSource);
     }
+
+    //SpringMVC相关
+
 
 }

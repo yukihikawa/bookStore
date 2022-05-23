@@ -1,4 +1,4 @@
-package com.wrf.filter;
+package com.wrf.web.filter;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;

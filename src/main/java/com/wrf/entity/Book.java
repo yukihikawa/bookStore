@@ -1,4 +1,4 @@
-package com.wrf.Bean;
+package com.wrf.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -8,18 +8,19 @@ import java.math.BigDecimal;
 
 /**
  * @program: bookStore
- * @description: 订单项
+ * @description: 图书模块的javaBean
  * @author: Rifu Wu
- * @create: 2022-05-19 22:13
+ * @create: 2022-05-14 23:59
  **/
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class OrderItem {
+public class Book {
     private Integer id;
     private String name;
-    private Integer count;
+    private String author;
     private BigDecimal price;
-    private BigDecimal totalPrice;
-    private String orderId;
+    private Integer sales;
+    private Integer stock;
+    private String imgPath = "static/img/default.jpg";
 }

@@ -43,24 +43,13 @@
     <!--filter-->
     <filter>
         <filter-name>ManagerFilter</filter-name>
-        <filter-class>com.wrf.filter.ManagerFilter</filter-class>
+        <filter-class>com.wrf.web.filter.ManagerFilter</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>ManagerFilter</filter-name>
         <url-pattern>/pages/manager/*</url-pattern>
         <url-pattern>/manager/bookServlet</url-pattern>
     </filter-mapping>
-
-    <servlet>
-        <servlet-name>HelloServlet</servlet-name>
-        <servlet-class>com.wrf.learning.HelloServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>HelloServlet</servlet-name>
-        <url-pattern>/hello</url-pattern>
-    </servlet-mapping>
-
-
 
     <servlet>
         <servlet-name>UserServlet</servlet-name>

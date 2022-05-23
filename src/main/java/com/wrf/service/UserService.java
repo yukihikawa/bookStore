@@ -1,7 +1,7 @@
 package com.wrf.service;
 
-import com.wrf.Bean.User;
-import com.wrf.mapper.UserMapper;
+import com.wrf.entity.User;
+import com.wrf.service.mapper.UserMapper;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
