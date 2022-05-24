@@ -1,3 +1,6 @@
+<%@ taglib
+        prefix="c"
+        uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page
         contentType="text/html;charset=UTF-8"
         language="java" %>
@@ -9,6 +12,8 @@
     <%--静态包含base，css文件，jquery--%>
     <%@include
             file="/pages/common/head.jsp" %>
+
+
     <style type="text/css">
         h1 {
             text-align: center;
@@ -25,11 +30,18 @@
     <span class="wel_word">后台管理系统</span>
     <%--静态包含管理模块--%>
     <%@include file="/pages/common/manage_menu.jsp"%>
+
+
+
+
+
+
+
 </div>
 
 <div id="main">
-    <h1>
-        欢迎管理员进入后台管理系统</h1>
+    <h1>${empty requestScope.msg ? "欢迎管理员进入后台管理系统" : msg }
+        </h1>
 </div>
 
 <%@include file="/pages/common/footer.jsp"%>

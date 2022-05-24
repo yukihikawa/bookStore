@@ -5,6 +5,7 @@ import com.wrf.service.mapper.UserMapper;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -13,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @author: Rifu Wu
  * @create: 2022-05-22 00:48
  **/
-@Component
+@Service
 @Transactional
 @Slf4j
 @AllArgsConstructor

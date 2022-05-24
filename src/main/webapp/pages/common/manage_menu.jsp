@@ -10,7 +10,12 @@
         language="java" %>
 
 <div>
-    <a href="manager/page/1">图书管理</a>
-    <a href="manager/showAllOrders">订单管理</a>
+    <c:if test="${empty requestScope.msg}">
+        <a href="manager/page/1">图书管理</a>
+        <a href="manager/showAllOrders">订单管理</a>
+
+    </c:if>
     <a href="index.jsp">返回商城</a>
+
+
 </div>

@@ -11,7 +11,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -24,11 +23,11 @@ import javax.sql.DataSource;
  * @author: Rifu Wu
  * @create: 2022-05-10 13:10
  **/
+@EnableWebMvc
 @Configuration
-@ComponentScan
+@ComponentScan(basePackages = "com.wrf")
 @MapperScan("com.wrf.service.mapper")
 @EnableTransactionManagement
-@EnableWebMvc
 public class AppConfig {
 
     //ORM相关
@@ -67,6 +66,13 @@ public class AppConfig {
     }
 
     //模板引擎
+
+    //
+    /*@Bean
+    Filter createManagerFilter(){
+        return new ManagerFilter();
+    }
+*/
 
 
 

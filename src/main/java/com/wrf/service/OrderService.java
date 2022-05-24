@@ -7,6 +7,7 @@ import com.wrf.service.mapper.OrderMapper;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
@@ -19,7 +20,7 @@ import java.util.Map;
  * @author: Rifu Wu
  * @create: 2022-05-22 16:47
  **/
-@Component
+@Service
 @Slf4j
 @AllArgsConstructor
 @Transactional
