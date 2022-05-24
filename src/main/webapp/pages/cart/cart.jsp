@@ -26,7 +26,7 @@ language="java" %>
 				var id = $(this).attr("bookId");
 				var count = this.value;
 				if(confirm("你确定要将【" + name + "】商品修改数量为：" + count + " 吗?")){
-					location.href = "cartServlet?action=updateCount&count="+count+"&id="+id;
+					location.href = "updateCount?counts="+count+"&ids="+id;
 				}else {
 					this.value = this.defaultValue;
 				}
@@ -70,7 +70,7 @@ language="java" %>
 						</td>
 						<td>${entry.value.price}</td>
 						<td>${entry.value.totalPrice}</td>
-						<td><a class="deleteItem" href="cartServlet?action=deleteItem&id=${entry.value.id}">删除</a></td>
+						<td><a class="deleteItem" href="deleteItem?id=${entry.value.id}">删除</a></td>
 					</tr>
 				</c:forEach>
 			</c:if>
@@ -80,8 +80,8 @@ language="java" %>
 			<div class="cart_info">
 				<span class="cart_span">购物车中共有<span class="b_count">${sessionScope.cart.totalCount}</span>件商品</span>
 				<span class="cart_span">总金额<span class="b_price">${sessionScope.cart.totalPrice}</span>元</span>
-				<span class="cart_span"><a id="clearCart" href="cartServlet?action=clear">清空购物车</a></span>
-				<span class="cart_span"><a href="clientOrderServlet?action=createOrder">去结账</a></span>
+				<span class="cart_span"><a id="clearCart" href="clear">清空购物车</a></span>
+				<span class="cart_span"><a href="createOrder">去结账</a></span>
 			</div>
 		</c:if>
 		

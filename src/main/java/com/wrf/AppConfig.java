@@ -11,7 +11,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import javax.sql.DataSource;
 
@@ -52,6 +55,19 @@ public class AppConfig {
     }
 
     //SpringMVC相关
+
+    //让SpringMVC自动处理静态文件并映射路径
+    WebMvcConfigurer createWebMvcConfigurer(){
+        return new WebMvcConfigurer() {
+            @Override
+            public void addResourceHandlers(ResourceHandlerRegistry registry) {
+                registry.addResourceHandler("/static/**").addResourceLocations("/static/");
+            }
+        };
+    }
+
+    //模板引擎
+
 
 
 }

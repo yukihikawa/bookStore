@@ -1,4 +1,4 @@
-package com.wrf.web;
+package com.wrf.web.servlets;
 
 import lombok.extern.slf4j.Slf4j;
 

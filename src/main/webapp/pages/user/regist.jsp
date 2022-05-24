@@ -100,7 +100,7 @@
                     </span>
                 </div>
                 <div class="form">
-                    <form action="userServlet"
+                    <form action="register"
                           method="post">
                         <input type="hidden" name="action" value="regist">
 

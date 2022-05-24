@@ -13,7 +13,7 @@
 <head>
     <meta charset="UTF-8">
     <title>
-        尚硅谷会员登录成功</title>
+        登录成功</title>
 
     <%--静态包含base，css文件，jquery--%>
     <%@include

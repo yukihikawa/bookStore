@@ -48,7 +48,7 @@ language="java" %>
 					<td>
 						<c:choose>
 							<c:when test="${order.status == 0}">
-								<a href="manager/managerOrderServlet?action=sendOrder&orderId=${order.orderId}">发货</a>
+								<a href="manager/sendOrder?orderId=${order.orderId}">发货</a>
 							</c:when>
 							<c:when test="${order.status == 1}">
 								已发货

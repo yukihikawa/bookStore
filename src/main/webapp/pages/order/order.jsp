@@ -62,7 +62,7 @@
                             未发货
                         </c:when>
                         <c:when test="${order.status == 1}">
-                            <a href="clientOrderServlet?action=receiveOrder&orderId=${order.orderId}">确认收货</a>
+                            <a href="receiveOrder?orderId=${order.orderId}">确认收货</a>
                         </c:when>
                         <c:otherwise>
                             已签收

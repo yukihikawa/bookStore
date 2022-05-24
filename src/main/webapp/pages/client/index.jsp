@@ -13,7 +13,7 @@ language="java" %>
 		$(function (){
 			$("button.addToCart").click(function (){
 				var bookId = $(this).attr("bookId");
-				location.href = "cartServlet?action=addItem&id=" + bookId;
+				location.href = "addItem?id=" + bookId;
 			});
 		});
 	</script>
@@ -33,7 +33,7 @@ language="java" %>
 				<c:if test="${not empty sessionScope.user}">
 					<span class="um_span">${sessionScope.user.username}</span>
 					<a href="clientOrderServlet?action=showMyOrders">我的订单</a>
-					<a href="userServlet?action=logout">注销</a>&nbsp;&nbsp;
+					<a href="logout">注销</a>&nbsp;&nbsp;
 					<a href="pages/cart/cart.jsp">购物车</a>
 				</c:if>
 				<a href="pages/manager/manager.jsp">后台管理</a>
@@ -42,8 +42,8 @@ language="java" %>
 	<div id="main">
 		<div id="book">
 			<div class="book_cond">
-				<form action="client/clientbookServlet" method="get">
-					<input type="hidden" name="action" value="pageByPrice" />
+				<form action="client/pageByPrice/${param.min}" method="get">
+					<input type="hidden" id="pno" type="text" name="pno" value="1">
 					价格：<input id="min" type="text" name="min" value="${ param.min }"> 元 -
 						<input id="max" type="text" name="max" value="${ param.max }"> 元
 						<input type="submit" value="查询" id="price_search"/>

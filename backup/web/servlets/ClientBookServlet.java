@@ -1,4 +1,4 @@
-package com.wrf.web;
+package com.wrf.web.servlets;
 
 import com.wrf.AppConfig;
 import com.wrf.entity.Book;

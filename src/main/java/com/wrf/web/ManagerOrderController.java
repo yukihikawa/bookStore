@@ -1,13 +1,12 @@
 package com.wrf.web;
 
-import com.wrf.AppConfig;
 import com.wrf.entity.Order;
 import com.wrf.service.OrderService;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 
-import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,27 +15,22 @@ import java.util.List;
 
 /**
  * @program: bookStore
- * @description:
+ * @description: 订单管理
  * @author: Rifu Wu
- * @create: 2022-05-20 16:18
+ * @create: 2022-05-24 18:10
  **/
 @Slf4j
-public class ManagerOrderServlet extends BaseServlet{
-
+@Controller
+@AllArgsConstructor
+public class ManagerOrderController {
     OrderService orderService;
-
-    @Override
-    public void init(ServletConfig config) {
-        ApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
-        this.orderService  = context.getBean(OrderService.class);
-    }
-
 
     /**
      * 查看所有订单（管理员）
      * @param req
      * @param resp
      */
+    @GetMapping("/manager/showAllOrders")
     protected void showAllOrders(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         List<Order> orders = orderService.showAllOrders();
         req.setAttribute("orders", orders);
@@ -48,8 +42,8 @@ public class ManagerOrderServlet extends BaseServlet{
      * @param req
      * @param resp
      */
-    protected void sendOrder(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        String orderId = req.getParameter("orderId");
+    @GetMapping(value = "manager/sendOrder", params = {"orderId"})
+    protected void sendOrder(HttpServletRequest req, HttpServletResponse resp, String orderId) throws IOException {
         orderService.sendOrder(orderId);
         resp.sendRedirect(req.getHeader("referer"));
     }
@@ -60,6 +54,5 @@ public class ManagerOrderServlet extends BaseServlet{
      * @param resp
      */
     protected void showOrderDetail(HttpServletRequest req, HttpServletResponse resp){}
-
 
 }

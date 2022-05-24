@@ -1,15 +1,15 @@
 package com.wrf.web;
 
-import com.wrf.AppConfig;
 import com.wrf.entity.Book;
 import com.wrf.entity.Page;
 import com.wrf.service.BookService;
 import com.wrf.service.utils.WebUtils;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
-import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,59 +17,55 @@ import java.io.IOException;
 
 /**
  * @program: bookStore
- * @description: 图书管理
+ * @description: 书籍管理模块
  * @author: Rifu Wu
- * @create: 2022-05-15 20:59
+ * @create: 2022-05-24 00:01
  **/
+@Controller
 @Slf4j
-public class BookServlet extends BaseServlet {
+@AllArgsConstructor
+public class BookController {
     BookService bookService;
-
-
-    @Override
-    public void init(ServletConfig config) {
-        ApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
-        this.bookService  = context.getBean(BookService.class);
-    }
-
-    //响应图书管理请求，列出所有图书 已被page取代
-    /*public void listAll(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        List<Book> books = bookService.getBookList();
-        req.setAttribute("books", books);
-        log.info("list request");
-        req.getRequestDispatcher("/pages/manager/book_manager.jsp").forward(req, resp);
-    }*/
     //按id删除图书
-    public void delete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    @GetMapping("/manager/delete/{id}/{pageNo}")
+    public void delete(HttpServletRequest req, HttpServletResponse resp, @PathVariable("id") String id, @PathVariable("pageNo") String pageNo) throws ServletException, IOException {
         log.info("delete req");
-        String id = req.getParameter("id");
+
         bookService.deleteBook(id);
         /*listAll(req,resp);*/
         /*resp.sendRedirect(req.getContextPath() + "/manager/bookServlet?action=listAll");*/
-        resp.sendRedirect(req.getContextPath() + "/manager/bookServlet?action=page&pageNo=" + req.getParameter("pageNo"));
+        resp.sendRedirect(req.getContextPath() + "/manager/page/" + pageNo);
     }
 
+    /**添加书籍
+     * @param req
+     * @param resp
+     * @throws IOException
+     * @throws ServletException
+     */
+    @GetMapping("/manager/addBook")
     public void addBook(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException{
         log.info("servlet get add req");
 
         Book book = WebUtils.copyParamToBean(req.getParameterMap(), new Book());
         log.info("new book: " + book.getName());
         bookService.addBook(book);
-        resp.sendRedirect(req.getContextPath() + "/manager/bookServlet?action=page");
+        resp.sendRedirect(req.getContextPath() + "/manager/page/1");
     }
 
     /**
-     * 添加书籍
+     * 获取书籍
      * @param req
      * @param resp
      * @throws ServletException
      * @throws IOException
      */
-    public void getBook(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    @GetMapping("/manager/getBook/{id}/{pno}")
+    public void getBook(HttpServletRequest req, HttpServletResponse resp, @PathVariable("id") String id, @PathVariable("pno") String pno) throws ServletException, IOException {
         log.info("update book");
-        String id = req.getParameter("id");
         Book book = bookService.getById(id);
         req.setAttribute("book", book);
+        req.setAttribute("pageNo", pno);
         req.getRequestDispatcher("/pages/manager/book_edit.jsp").forward(req, resp);
     }
 
@@ -79,10 +75,11 @@ public class BookServlet extends BaseServlet {
      * @throws IOException
      */
     //更新图书信息
+    @GetMapping("/manager/update")
     public void update(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         Book book = WebUtils.copyParamToBean(req.getParameterMap(), new Book());
         bookService.updateBook(book);
-        resp.sendRedirect(req.getContextPath() + "/manager/bookServlet?action=page&pageNo=" + req.getParameter("pageNo"));
+        resp.sendRedirect(req.getContextPath() + "/manager/page/" + req.getParameter("pageNo"));
     }
 
 
@@ -93,14 +90,16 @@ public class BookServlet extends BaseServlet {
      * @throws ServletException
      * @throws IOException
      */
-    protected void page(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    @GetMapping("/manager/page/{pno}")
+    protected void page(HttpServletRequest req, HttpServletResponse resp, @PathVariable("pno") String pno) throws ServletException, IOException {
         //获取请求的参数pageNo和pageSize
-        int pageNo = WebUtils.parseInt(req.getParameter("pageNo"), 1);
+        int pageNo = WebUtils.parseInt(pno, 1);
         int pageSize = WebUtils.parseInt(req.getParameter("pageSize"), Page.PAGE_SIZE);
+        /*log.info("pageno : " + pageNo);*/
         //调用pageService.page()获取page
         Page<Book> page = bookService.page(pageNo, pageSize);
         //设置URL
-        page.setUrl("manager/bookServlet?action=page");
+        page.setUrl("manager/page");
         req.setAttribute("page", page);
         req.getRequestDispatcher("/pages/manager/book_manager.jsp").forward(req,resp);
     }

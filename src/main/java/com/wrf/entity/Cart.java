@@ -14,7 +14,7 @@ import java.util.Map;
  * @create: 2022-05-17 22:02
  **/
 
-@Component
+
 @Slf4j
 public class Cart {
     private Map<Integer, CartItem> items = new LinkedHashMap<>();

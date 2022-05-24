@@ -12,8 +12,8 @@
 <div id = "page_nav">
 
     <c:if test="${requestScope.page.pageNo > 1}">
-        <a href="${requestScope.page.url}&pageNo=1">首页</a>
-        <a href="${requestScope.page.url}&pageNo=${requestScope.page.pageNo - 1}">上一页</a>
+        <a href="${requestScope.page.url}/1">首页</a>
+        <a href="${requestScope.page.url}/${requestScope.page.pageNo - 1}">上一页</a>
 
     </c:if>
     <%--<a href="#">${requestScope.page.pageNo - 1}</a>
@@ -55,15 +55,15 @@
             【${i}】
         </c:if>
         <c:if test="${i != requestScope.page.pageNo}">
-            <a href="${requestScope.page.url}&pageNo=${i}">${i}</a>
+            <a href="${requestScope.page.url}/${i}">${i}</a>
         </c:if>
     </c:forEach>
     <%--页码输出的结束--%>
     <%--已经是最后一页，则不显示下一页--%>
     <c:if test="${requestScope.page.pageNo < requestScope.page.pageTotal}">
 
-        <a href="${requestScope.page.url}&pageNo=${requestScope.page.pageNo + 1}">下一页</a>
-        <a href="${requestScope.page.url}&pageNo=${requestScope.page.pageTotal}">末页</a>
+        <a href="${requestScope.page.url}/${requestScope.page.pageNo + 1}">下一页</a>
+        <a href="${requestScope.page.url}/${requestScope.page.pageTotal}">末页</a>
     </c:if>
 
     共${requestScope.page.pageTotal}页，${requestScope.page.pageTotalCount}条记录&nbsp;
@@ -73,7 +73,7 @@
         $(function (){
             $("#searchPageBtn").click(function (){
                 var pageNo = $("#pn_input").val();
-                location.href = "${pageScope.basePath}${requestScope.page.url}&pageNo=" + pageNo;
+                location.href = "${pageScope.basePath}${requestScope.page.url}/" + pageNo;
             });
         });
     </script>

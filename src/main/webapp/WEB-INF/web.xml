@@ -20,7 +20,7 @@
   <!--配置Spring MVC提供的DispatcherServlet-->
 
 
-    <!--<servlet>
+    <servlet>
         <servlet-name>dispatcher</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
         <init-param>
@@ -36,11 +36,23 @@
 
     <servlet-mapping>
         <servlet-name>dispatcher</servlet-name>
-        <url-pattern>/*</url-pattern>
-    </servlet-mapping>-->
+        <url-pattern>/</url-pattern>
+    </servlet-mapping>
+
+   <!--验证码-->
+    <servlet>
+        <servlet-name>KaptchaServlet</servlet-name>
+        <servlet-class>com.google.code.kaptcha.servlet.KaptchaServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>KaptchaServlet</servlet-name>
+        <url-pattern>/kaptcha.jpg</url-pattern>
+    </servlet-mapping>
 
 
-    <!--filter-->
+<!--
+
+    &lt;!&ndash;filter&ndash;&gt;
     <filter>
         <filter-name>ManagerFilter</filter-name>
         <filter-class>com.wrf.web.filter.ManagerFilter</filter-class>
@@ -53,7 +65,7 @@
 
     <servlet>
         <servlet-name>UserServlet</servlet-name>
-        <servlet-class>com.wrf.web.UserServlet</servlet-class>
+        <servlet-class>com.wrf.web.servlets.UserServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>UserServlet</servlet-name>
@@ -62,7 +74,7 @@
 
     <servlet>
         <servlet-name>BookServlet</servlet-name>
-        <servlet-class>com.wrf.web.BookServlet</servlet-class>
+        <servlet-class>com.wrf.web.servlets.BookServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>BookServlet</servlet-name>
@@ -71,26 +83,26 @@
 
     <servlet>
         <servlet-name>ClientBookServlet</servlet-name>
-        <servlet-class>com.wrf.web.ClientBookServlet</servlet-class>
+        <servlet-class>com.wrf.web.servlets.ClientBookServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>ClientBookServlet</servlet-name>
         <url-pattern>/client/clientbookServlet</url-pattern>
     </servlet-mapping>
-    <!--购物车-->
+    &lt;!&ndash;购物车&ndash;&gt;
     <servlet>
         <servlet-name>CartServlet</servlet-name>
-        <servlet-class>com.wrf.web.CartServlet</servlet-class>
+        <servlet-class>com.wrf.web.servlets.CartServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>CartServlet</servlet-name>
         <url-pattern>/cartServlet</url-pattern>
     </servlet-mapping>
 
-    <!--订单-->
+    &lt;!&ndash;订单&ndash;&gt;
     <servlet>
         <servlet-name>ClientOrderServlet</servlet-name>
-        <servlet-class>com.wrf.web.ClientOrderServlet</servlet-class>
+        <servlet-class>com.wrf.web.servlets.ClientOrderServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>ClientOrderServlet</servlet-name>
@@ -98,22 +110,15 @@
     </servlet-mapping>
     <servlet>
         <servlet-name>ManagerOrderServlet</servlet-name>
-        <servlet-class>com.wrf.web.ManagerOrderServlet</servlet-class>
+        <servlet-class>com.wrf.web.servlets.ManagerOrderServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>ManagerOrderServlet</servlet-name>
         <url-pattern>/manager/managerOrderServlet</url-pattern>
     </servlet-mapping>
 
-    <!--验证码-->
-    <servlet>
-        <servlet-name>KaptchaServlet</servlet-name>
-        <servlet-class>com.google.code.kaptcha.servlet.KaptchaServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>KaptchaServlet</servlet-name>
-        <url-pattern>/kaptcha.jpg</url-pattern>
-    </servlet-mapping>
 
+
+-->
 
 </web-app>
