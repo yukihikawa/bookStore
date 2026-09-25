@@ -36,12 +36,13 @@ public class AppConfig {
     DataSource createDataSource() {
         String path = getClass().getClassLoader().getResource("hikari.properties").getPath();
         HikariConfig config = new HikariConfig(path);
+        config.setDriverClassName("com.mysql.cj.jdbc.Driver");
         return new HikariDataSource(config);
     }
 
     //MyBatis
     @Bean
-    SqlSessionFactoryBean createSqlSessionFactoryBean(@Autowired DataSource dataSource) {
+    public SqlSessionFactoryBean createSqlSessionFactoryBean(@Autowired DataSource dataSource) {
         var sqlSessionFactoryBean = new SqlSessionFactoryBean();
         sqlSessionFactoryBean.setDataSource(dataSource);
         return sqlSessionFactoryBean;
@@ -49,14 +50,15 @@ public class AppConfig {
 
     //事务管理
     @Bean
-    PlatformTransactionManager createTxManger(@Autowired DataSource dataSource) {
+    public PlatformTransactionManager createTxManger(@Autowired DataSource dataSource) {
         return new DataSourceTransactionManager(dataSource);
     }
 
     //SpringMVC相关
 
     //让SpringMVC自动处理静态文件并映射路径
-    WebMvcConfigurer createWebMvcConfigurer(){
+    @Bean
+    public WebMvcConfigurer createWebMvcConfigurer(){
         return new WebMvcConfigurer() {
             @Override
             public void addResourceHandlers(ResourceHandlerRegistry registry) {

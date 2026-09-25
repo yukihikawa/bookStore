@@ -33,7 +33,7 @@ public class UserController {
     UserService userService;
 
     @PostMapping("/login")
-    private void login(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
+    public void login(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
         String username = req.getParameter("username");
         /*
         String password = req.getParameter("password");
@@ -87,7 +87,7 @@ public class UserController {
      */
 
     @PostMapping("/register")
-    private void register(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    public void register(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         // 1、获取请求的参数
         /*String username = req.getParameter("username");
         String password = req.getParameter("password");
@@ -123,7 +123,7 @@ public class UserController {
     }
 
     @GetMapping("/logout")
-    private void logout(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    public void logout(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         //销毁Session中的登录信息
         req.getSession().invalidate();
         resp.sendRedirect(req.getContextPath());

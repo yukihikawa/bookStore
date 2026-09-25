@@ -37,4 +37,8 @@ public class UserService {
             return false;
         return true;
     }
+
+    public User queryUserById(Integer id) {
+        return userMapper.queryUserById(id);
+    }
 }

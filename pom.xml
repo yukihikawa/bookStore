@@ -7,7 +7,7 @@
     <groupId>groupId</groupId>
     <artifactId>bookStore</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <packaging>jar</packaging>
+    <packaging>war</packaging>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -30,7 +30,7 @@
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
             <version>4.0.1</version>
-            <scope>provided</scope>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>javax.annotation</groupId>
@@ -42,7 +42,7 @@
             <groupId>javax.servlet</groupId>
             <artifactId>jsp-api</artifactId>
             <version>2.0</version>
-            <scope>provided</scope>
+            <scope>compile</scope>
         </dependency>
 
         <!--Spring-->
@@ -106,7 +106,7 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>5.1.47</version>
+            <version>8.0.29</version>
         </dependency>
         <!--JDBC连接池-->
         <dependency>
@@ -131,6 +131,19 @@
 
 
 
+        <!--JSON 序列化（SPA REST 接口 @RequestBody / JSON 响应）-->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.14.2</version>
+        </dependency>
+        <!--Java 8 日期时间（LocalDateTime 等）JSON 支持-->
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jsr310</artifactId>
+            <version>2.14.2</version>
+        </dependency>
+
         <!--一些工具包-->
 
         <!--junit test-->
@@ -144,7 +157,7 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>RELEASE</version>
+            <version>1.18.48</version>
             <scope>compile</scope>
         </dependency>
 
@@ -228,11 +241,6 @@
             <artifactId>kaptcha</artifactId>
             <version>2.3.2</version>
         </dependency>
-
-
-
-
-
 
 
 

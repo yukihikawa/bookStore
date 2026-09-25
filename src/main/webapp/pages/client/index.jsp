@@ -37,6 +37,7 @@ language="java" %>
 					<a href="pages/cart/cart.jsp">购物车</a>
 				</c:if>
 				<a href="pages/manager/manager.jsp">后台管理</a>
+				<a href="app/" title="新版界面（Vue 3 SPA）" style="color:#2f6bff">新版界面</a>
 			</div>
 	</div>
 	<div id="main">
