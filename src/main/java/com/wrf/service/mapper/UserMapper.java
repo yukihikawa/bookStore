@@ -5,6 +5,9 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
+
+import java.util.List;
 
 /**
  * @program: bookStore
@@ -27,12 +30,15 @@ public interface UserMapper {
     /*@Select("SELECT * FROM t_user WHERE username = #{username} AND password = #{password}")
     User queryUserByUsernameAndPassword(@Param("username") String username, @Param("password") String password);*/
 
-    /**验证用户名和密码
-     * @param user
-     * @return
+    /**密码已迁移为 BCrypt 哈希（见 PasswordHasher），不再在 SQL 中比对明文
+     * @return 所有用户（启动迁移存量明文密码用）
      */
-    @Select("SELECT * FROM t_user WHERE username = #{user.username} AND password = #{user.password}")
-    User queryUserByUsernameAndPassword(@Param("user") User user);
+    @Select("SELECT * FROM t_user")
+    List<User> queryAllUsers();
+
+    /**更新密码（启动时把存量明文密码迁移为 BCrypt 哈希）*/
+    @Update("UPDATE t_user SET password = #{password} WHERE id = #{id}")
+    int updatePassword(@Param("id") Integer id, @Param("password") String password);
 
     /*@Insert("INSERT INTO t_user(`username`,`password`,`email`) VALUES(#{username}, #{password}, #{email})")
     int saveUser(@Param("username") String username, @Param("password") String password, @Param("email") String email);*/

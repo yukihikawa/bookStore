@@ -38,7 +38,7 @@ public class CartApiController {
         return cartView(cart);
     }
 
-    /** 加入购物车 */
+    /** 加入购物车（库存校验：不允许加入超过当前库存的数量） */
     @PostMapping("/items")
     public Map<String, Object> add(HttpServletRequest request,
                                    @RequestBody Map<String, Object> body) {
@@ -49,12 +49,17 @@ public class CartApiController {
         }
 
         Cart cart = authSupport.cart(request.getSession(), true);
+        int willBe = cart.getCount(bookId) + 1;
+        if (willBe > book.getStock()) {
+            throw new ApiException(ApiCodes.INVALID_PARAM,
+                    "《" + book.getName() + "》库存不足（剩余 " + book.getStock() + "）");
+        }
         cart.addItem(new CartItem(book.getId(), book.getName(), 1, book.getPrice(), book.getPrice()));
         request.getSession().setAttribute("lastname", book.getName());
         return cartView(cart);
     }
 
-    /** 修改数量 */
+    /** 修改数量（库存校验：新数量不得超过当前库存） */
     @PutMapping("/items/{id}")
     public Map<String, Object> updateCount(HttpServletRequest request,
                                            @PathVariable("id") int id,
@@ -64,6 +69,14 @@ public class CartApiController {
                 : Integer.parseInt(String.valueOf(body.get("count")));
         if (count < 1) {
             throw new ApiException(ApiCodes.INVALID_PARAM, "数量不能小于 1");
+        }
+        Book book = bookService.getById(String.valueOf(id));
+        if (book == null) {
+            throw new ApiException(ApiCodes.NOT_FOUND, "书籍不存在");
+        }
+        if (count > book.getStock()) {
+            throw new ApiException(ApiCodes.INVALID_PARAM,
+                    "《" + book.getName() + "》库存不足（剩余 " + book.getStock() + "）");
         }
         Cart cart = authSupport.cart(request.getSession(), true);
         cart.updateCount(id, count);
@@ -87,7 +100,9 @@ public class CartApiController {
         return cartView(cart);
     }
 
-    /** 结算下单：创建订单并清空购物车，返回订单号 */
+    /** 结算下单：创建订单并清空购物车，返回订单号。
+     *  订单号为主键（时间戳+userId），同毫秒并发下单可能碰撞，
+     *  碰撞时重试（会话购物车不变，最多 3 次）。 */
     @PostMapping("/checkout")
     public Map<String, Object> checkout(HttpServletRequest request) {
         Cart cart = authSupport.cart(request.getSession(), true);
@@ -99,7 +114,20 @@ public class CartApiController {
             throw new ApiException(ApiCodes.NOT_LOGIN, "请先登录");
         }
 
-        String orderId = orderService.createOrder(cart, user.getId());
+        String orderId;
+        int attempts = 0;
+        while (true) {
+            attempts++;
+            try {
+                orderId = orderService.createOrder(cart, user.getId());
+                break;
+            } catch (org.springframework.dao.DuplicateKeyException e) {
+                if (attempts >= 3) {
+                    throw new ApiException(ApiCodes.INTERNAL, "下单繁忙，请稍后重试");
+                }
+                log.warn("orderId collision (attempt {}), retrying", attempts);
+            }
+        }
         Map<String, Object> result = new LinkedHashMap<>();
         result.put("orderId", orderId);
         result.put("cart", cartView(cart));

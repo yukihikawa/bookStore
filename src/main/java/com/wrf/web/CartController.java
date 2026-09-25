@@ -1,20 +1,15 @@
 package com.wrf.web;
 
-import com.wrf.AppConfig;
 import com.wrf.entity.Book;
 import com.wrf.entity.Cart;
 import com.wrf.entity.CartItem;
 import com.wrf.service.BookService;
 import com.wrf.service.utils.WebUtils;
 import lombok.AllArgsConstructor;
-import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import javax.servlet.ServletConfig;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -33,7 +28,7 @@ public class CartController {
 
 
     /**
-     * 加入购物车
+     * 加入购物车（带库存校验：购物车中已有数量 + 1 不得超过当前库存）
      * @param req
      * @param resp
      */
@@ -41,18 +36,25 @@ public class CartController {
     public void addItem(HttpServletRequest req, HttpServletResponse resp, String id) throws IOException {
 
         Book book = bookService.getById(id);
-        //创建商品项
-        CartItem cartItem  = new CartItem(book.getId(), book.getName(), 1, book.getPrice(), book.getPrice());
         //添加商品项
         Cart cart = (Cart) req.getSession().getAttribute("cart");
         if(cart == null){
             cart = new Cart();
             req.getSession().setAttribute("cart", cart);
         }
-        cart.addItem(cartItem);
-        log.info(cart.toString());
+        if(cart.getCount(book.getId()) + 1 > book.getStock()){
+            //库存不足：JSP 页面无统一错误通道，仅打日志，回跳来源页
+            log.warn("stock not enough for book [{}], in cart: [{}], stock: [{}]",
+                    book.getName(), cart.getCount(book.getId()), book.getStock());
+        }
+        else {
+            //创建商品项
+            CartItem cartItem  = new CartItem(book.getId(), book.getName(), 1, book.getPrice(), book.getPrice());
+            cart.addItem(cartItem);
+            log.info(cart.toString());
+            req.getSession().setAttribute("lastname", cartItem.getName());
+        }
         log.info("请求头Referer ：" + req.getHeader("Referer"));
-        req.getSession().setAttribute("lastname", cartItem.getName());
 
         resp.sendRedirect(req.getHeader("Referer"));
     }
@@ -92,6 +94,9 @@ public class CartController {
 
     }
 
+    /**
+     * 修改数量（带库存校验；结算时 OrderService 还有一次数据库层校验兜底）
+     */
     @GetMapping(value = "/updateCount", params = {"counts", "ids"})
     public void updateCount(HttpServletRequest req, HttpServletResponse resp, String counts, String ids) throws IOException {
         int id = WebUtils.parseInt(ids, 0);
@@ -100,7 +105,14 @@ public class CartController {
         Cart cart = (Cart) req.getSession().getAttribute("cart");
 
         if(cart != null){
-            cart.updateCount(id, count);
+            Book book = bookService.getById(String.valueOf(id));
+            if(count > book.getStock()){
+                log.warn("stock not enough for book [{}], want: [{}], stock: [{}]",
+                        book.getName(), count, book.getStock());
+            }
+            else {
+                cart.updateCount(id, count);
+            }
             resp.sendRedirect(req.getHeader("Referer"));
 
         }

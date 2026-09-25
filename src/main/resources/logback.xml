@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 日志统一走 slf4j + logback（原 log4j 1.x 已 EOL，移除）
+     原 log4j.properties 的行为映射：
+     - 控制台 appender（INFO 起）
+     - 每日滚动文件：全量 info 日志 + 独立 error 日志
+     - 特殊 logger "special"：独立目录、不向上传播
+     - MyBatis/JDBC 原为 DEBUG（SQL 调试用，默认降到 TRACE 等价关闭，需要时调回 DEBUG） -->
+<configuration>
+    <property name="LOG_HOME" value="${user.home}/logs/bookstore"/>
+    <!-- 说明：不用 %C/%M/%line（调用栈类 converter），在 surefire 与部分
+         容器 classloader 环境下实例化不稳定；logger 名已足够定位代码 -->
+    <property name="PATTERN" value="[%-5level] [%d{yyyy-MM-dd HH:mm:ss}] %logger{36} | %msg%n"/>
+
+    <!-- 控制台 -->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${PATTERN}</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>INFO</level>
+        </filter>
+    </appender>
+
+    <!-- 全量日志（INFO 起，每日滚动） -->
+    <appender name="INFO_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_HOME}/mall_info.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_HOME}/mall_info.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${PATTERN}</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>INFO</level>
+        </filter>
+    </appender>
+
+    <!-- 错误日志（ERROR 起，每日滚动） -->
+    <appender name="ERROR_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_HOME}/mall_error.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_HOME}/mall_error.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${PATTERN}</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>ERROR</level>
+        </filter>
+    </appender>
+
+    <!-- 特殊日志（原 log4j.properties 的 "special" logger，独立目录，不向上传播） -->
+    <appender name="SPECIAL" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_HOME}/special/special.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_HOME}/special/special.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${PATTERN}</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>INFO</level>
+        </filter>
+    </appender>
+
+    <!-- SQL 调试：默认关闭（原 log4j.properties 为 DEBUG），需要排障时改成 DEBUG -->
+    <logger name="org.mybatis" level="WARN"/>
+    <logger name="java.sql" level="WARN"/>
+
+    <logger name="special" level="INFO" additivity="false">
+        <appender-ref ref="SPECIAL"/>
+    </logger>
+
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="INFO_FILE"/>
+        <appender-ref ref="ERROR_FILE"/>
+    </root>
+</configuration>

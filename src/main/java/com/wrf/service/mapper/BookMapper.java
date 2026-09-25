@@ -48,4 +48,15 @@ public interface BookMapper {
     @Select("SELECT id, name, author, price, sales, stock, img_path imgPath FROM t_book WHERE price BETWEEN #{min} AND #{max} ORDER BY price DESC LIMIT #{begin}, #{pageSize}")
     List<Book> queryForPageElementScreen(@Param("begin") int begin, @Param("pageSize") int pageSize,
                                          @Param("min") int min, @Param("max") int max);
+
+    /**
+     * 条件扣库存（防超卖的关键）：仅当当前库存足够时才扣减，
+     * 由数据库行锁保证并发安全；返回 0 表示库存不足，调用方据此回滚。
+     */
+    @Update("UPDATE t_book SET stock = stock - #{count} WHERE id = #{id} AND stock >= #{count}")
+    int decreaseStock(@Param("id") Integer id, @Param("count") int count);
+
+    /** 销量 +count（无条件） */
+    @Update("UPDATE t_book SET sales = sales + #{count} WHERE id = #{id}")
+    int increaseSales(@Param("id") Integer id, @Param("count") int count);
 }

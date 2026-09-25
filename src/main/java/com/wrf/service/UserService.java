@@ -21,15 +21,24 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserService {
     final
     UserMapper userMapper;
+    final PasswordHasher passwordHasher;
 
+    /**注册：密码在入库前哈希（BCrypt）*/
     public void registUser(User user){
+        user.setPassword(passwordHasher.hash(user.getPassword()));
         userMapper.saveUser(user);
 
     }
 
+    /**登录：按用户名查用户，再用 BCrypt 校验密码，返回完整用户或 null */
     public User login(User user){
-        /*return userMapper.queryUserByUsernameAndPassword(user.getUsername(), user.getPassword());*/
-        return userMapper.queryUserByUsernameAndPassword(user);
+        User queried = userMapper.queryUserByUsername(user.getUsername());
+        if (queried == null
+                || user.getPassword() == null
+                || !passwordHasher.matches(user.getPassword(), queried.getPassword())) {
+            return null;
+        }
+        return queried;
     }
 
     public boolean existsUsername(String username) {

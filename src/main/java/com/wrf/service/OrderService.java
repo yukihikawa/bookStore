@@ -30,13 +30,15 @@ public class OrderService {
     BookMapper bookMapper;
 
     /**
-     * 创建订单
+     * 创建订单（事务内）：
+     * 先整体校验库存，再用"条件扣库存"（stock >= count 才更新）落库，
+     * 由数据库行锁保证并发下不超卖；任一步失败抛异常回滚整个事务。
      * @param cart 购物车对象
      * @param userId 用户id
-     * @return
+     * @return 订单号
      */
     public String createOrder(Cart cart, Integer userId) {
-        //生成唯一订单号
+        //生成唯一订单号（与原实现一致：时间戳+userId）
         String orderId = System.currentTimeMillis()+""+userId;
         //创建订单对象
         Order order = new Order(orderId, LocalDateTime.now(), cart.getTotalPrice(), 0, userId);
@@ -44,13 +46,23 @@ public class OrderService {
 
         for(Map.Entry<Integer, CartItem> entry : cart.getItems().entrySet()){
             CartItem cartItem = entry.getValue();
-            OrderItem orderItem = new OrderItem(null, cartItem.getName(), cartItem.getCount(), cartItem.getPrice(), cartItem.getTotalPrice(), orderId);
-            orderItemMapper.saveOrderItem(orderItem);
             Book book = bookMapper.queryBookById(cartItem.getId());
-            book.setSales(book.getSales() + cartItem.getCount());
-            book.setStock(book.getStock() - cartItem.getCount());
-            bookMapper.updateBook(book);
+            if (book == null) {
+                throw new IllegalStateException("结算失败：书籍[id=" + cartItem.getId() + "]不存在，订单已回滚");
+            }
+            if (book.getStock() < cartItem.getCount()) {
+                throw new IllegalStateException("结算失败：《" + book.getName() + "》库存不足（剩余 " + book.getStock() + "），订单已回滚");
+            }
+            //价格以购物车快照为准（用户实际支付金额）
+            OrderItem orderItem = new OrderItem(null, book.getName(), cartItem.getCount(), cartItem.getPrice(), cartItem.getTotalPrice(), orderId);
+            orderItemMapper.saveOrderItem(orderItem);
 
+            // 条件扣库存：并发下库存不足时返回 0，抛异常回滚（含前面已写的订单/明细）
+            int rows = bookMapper.decreaseStock(book.getId(), cartItem.getCount());
+            if (rows == 0) {
+                throw new IllegalStateException("结算失败：《" + book.getName() + "》库存不足，订单已回滚");
+            }
+            bookMapper.increaseSales(book.getId(), cartItem.getCount());
         }
 
         cart.clear();

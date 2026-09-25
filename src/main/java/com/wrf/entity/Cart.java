@@ -68,6 +68,12 @@ public class Cart {
         }
     }
 
+    /** 某商品当前在购物车中的数量（不在则为 0），供库存校验用 */
+    public int getCount(Integer id){
+        CartItem item = items.get(id);
+        return item == null ? 0 : item.getCount();
+    }
+
 
     /**
      * 获取购物车中总数
