@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bs-brand: #2f6bff;
+}
+
+body {
+  @apply bg-slate-50 text-slate-800 antialiased;
+}
+
+@media (min-width: 1024px) {
+  /* 主内容区统一限宽，与设计一致 */
+  .container-bs {
+    @apply mx-auto w-full max-w-6xl px-4;
+  }
+}
+@media (max-width: 1023px) {
+  .container-bs {
+    @apply mx-auto w-full px-4;
+  }
+}
